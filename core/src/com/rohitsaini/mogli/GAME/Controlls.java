@@ -52,5 +52,12 @@ public class Controlls {
         }
 
 
+//        Bullet Fired
+        if (Gdx.input.isKeyJustPressed(Input.Keys.F)){
+            MainGame.bullets.add(new Bullet(Player.PlayerX+Player.PlayerWidth));
+            System.out.println("Bullet added");
+        }
+
+
     }
 }

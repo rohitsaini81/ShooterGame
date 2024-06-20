@@ -3,7 +3,7 @@ package com.rohitsaini.mogli.GAME;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Rectangle;
+
 
 public class Player {
 //    Primitive Variables
@@ -20,6 +20,9 @@ public class Player {
 //     Non-Primitive Variables
     static float PlayerX,PlayerY,PlayerWidth,PlayerHeight;
     static Texture Texture;
+    static Texture Texture2;
+    static Texture Texture3;
+
     static TextureRegion[] playerTextureRegions;
     static TextureRegion[] playerRunningTextureRegions;
     static TextureRegion[] playerJumpTextureRegions;
@@ -27,21 +30,53 @@ public class Player {
     static Animation<TextureRegion> playerAnimation;
     static Animation<TextureRegion> playerRunningAnimation;
     static Animation<TextureRegion> playerJumpAnimation;
-    static Rectangle PlayerRect;
+    TextureRegion[][] temp;
+
+
+
 //
 
     Player (){
         PlayerWidth=34;PlayerHeight=38;
-        Texture= new Texture("shotgun.png");
-        TextureRegion[][] temp = TextureRegion.split(Texture,34,38);
+        Texture = new Texture("idleshoot.png");
+        Texture2= new Texture("runningshooter.png");
+        Texture3= new Texture("jumpshooter.png");
+
+
+
+        temp = TextureRegion.split(Texture,30,30);
+        playerTextureRegions= new TextureRegion[5];
+        for (int j = 0; j <5; j++) {
+            playerTextureRegions[index++]=temp[0][j];
+        }
+        playerAnimation = new Animation<>(.1f, playerTextureRegions);
+        index=0;
+
+//        Running Animation
+
+        temp = TextureRegion.split(Texture2,34,36);
         playerRunningTextureRegions= new TextureRegion[12];
-        for (int j = 0; j < 12; j++) {
-            playerRunningTextureRegions[index++]=temp[1][j];
+        for (int j = 0; j <12; j++) {
+            playerRunningTextureRegions[index++]=temp[0][j];
         }
 
         playerRunningAnimation = new Animation<>(.1f, playerRunningTextureRegions);
+        index=0;
+
+
+//        JUMP_GUY
+        temp = TextureRegion.split(Texture3,30,30);
+        playerJumpTextureRegions= new TextureRegion[4];
+        for (int j = 0; j <4; j++) {
+            playerJumpTextureRegions[index++]=temp[0][j];
+        }
+
+        playerJumpAnimation = new Animation<>(.1f, playerJumpTextureRegions);
+
     }
     static void renderPlayer(){
+
+
 
         Variables.batch.draw(Player.playerRunningAnimation.getKeyFrame(Variables.stateTime,true), Player.PlayerX, Player.PlayerY,PlayerWidth,PlayerHeight);
     }

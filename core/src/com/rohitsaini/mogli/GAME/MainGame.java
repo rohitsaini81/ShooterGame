@@ -9,11 +9,13 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.rohitsaini.mogli.Mogali;
 import com.badlogic.gdx.math.Rectangle;
 
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class MainGame implements Screen {
@@ -25,12 +27,12 @@ public class MainGame implements Screen {
     static float S=W2/2;
     static float loopValue=0;
     static  int bg_times=5;
+    static ArrayList<Bullet> bullets;
 
 
     Enemies enemy;
     Player player;
     SurfaceObjects surfaceObjects;
-
 
     public MainGame(Game game) {
         this.game = game;
@@ -39,7 +41,10 @@ public class MainGame implements Screen {
 
 //        Class Objects = new;
         enemy = new Enemies();
-        Bullet bullet = new Bullet();
+        bullets= new ArrayList<>();
+
+
+
         surfaceObjects = new SurfaceObjects();
 
         Variables.batch = new SpriteBatch();
@@ -98,8 +103,27 @@ public class MainGame implements Screen {
         surfaceObjects.RenderSfObjects(Variables.batch);
 //        Snake Positon x460 y38
         enemy.RenderEnemy();
-        Bullet.Bullet_fire();
         Player.renderPlayer();
+
+
+
+
+
+//        Bullet Functionality HERE
+
+//        <Update Bullets>
+        ArrayList<Bullet>bulletstoRemove = new ArrayList<>();
+        for (Bullet bullet:bullets){
+            bullet.update();
+            if (bullet.remove){
+                bulletstoRemove.add(bullet);}
+        }
+        bullets.removeAll(bulletstoRemove);
+        for (Bullet bullet:bullets){
+            bullet.Bullet_fire(Variables.batch);
+        }
+
+
 
 //        JUMP FUNCTIONALITY HERE
 
