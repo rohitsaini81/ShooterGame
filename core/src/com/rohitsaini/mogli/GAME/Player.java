@@ -13,7 +13,7 @@ public class Player {
     static int index = 0;
     static float velocity=-200;
     static float Player_prevX;
-    static float Player_prevY;
+    static int Player_State;
 
 
 
@@ -38,13 +38,14 @@ public class Player {
 
     Player (){
         PlayerWidth=34;PlayerHeight=38;
+        Player_State = 2;
         Texture = new Texture("idleshoot.png");
         Texture2= new Texture("runningshooter.png");
         Texture3= new Texture("jumpshooter.png");
 
 
 
-        temp = TextureRegion.split(Texture,30,30);
+        temp = TextureRegion.split(Texture,36,35);
         playerTextureRegions= new TextureRegion[5];
         for (int j = 0; j <5; j++) {
             playerTextureRegions[index++]=temp[0][j];
@@ -65,7 +66,7 @@ public class Player {
 
 
 //        JUMP_GUY
-        temp = TextureRegion.split(Texture3,30,30);
+        temp = TextureRegion.split(Texture3,33,37);
         playerJumpTextureRegions= new TextureRegion[4];
         for (int j = 0; j <4; j++) {
             playerJumpTextureRegions[index++]=temp[0][j];
@@ -75,9 +76,17 @@ public class Player {
 
     }
     static void renderPlayer(){
+        switch (Player_State){
+            case 0:
+                Variables.batch.draw(Player.playerJumpAnimation.getKeyFrame(Variables.stateTime,true), Player.PlayerX, Player.PlayerY,PlayerWidth,PlayerHeight);
+                break;
+            case 1:
+                 Variables.batch.draw(Player.playerRunningAnimation.getKeyFrame(Variables.stateTime,true), Player.PlayerX, Player.PlayerY,PlayerWidth,PlayerHeight);
+                 break;
+            default:
+                Variables.batch.draw(Player.playerAnimation.getKeyFrame(Variables.stateTime,true), Player.PlayerX, Player.PlayerY,PlayerWidth,PlayerHeight);
+                 break;
 
-
-
-        Variables.batch.draw(Player.playerRunningAnimation.getKeyFrame(Variables.stateTime,true), Player.PlayerX, Player.PlayerY,PlayerWidth,PlayerHeight);
+        }
     }
 }
