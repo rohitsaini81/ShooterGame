@@ -19,7 +19,7 @@ public class Variables {
     static float SurfaceX;
     static float SurfaceX2;
     static float SurfaceY;
-    static int angle;
+    static float angle;
     static boolean isCollision;
 
 }

@@ -2,24 +2,16 @@ package com.rohitsaini.mogli.GAME;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.rohitsaini.mogli.Mogali;
-import com.badlogic.gdx.math.Rectangle;
-
-
 import java.util.ArrayList;
-import java.util.Arrays;
+
 
 public class MainGame implements Screen {
-    static float PLAYER_HEALTH;
     Game game;
     static float W0 = 0;
     static float W2 = Gdx.graphics.getWidth();
@@ -60,16 +52,16 @@ public class MainGame implements Screen {
 
     @Override
     public void show() {
-        PLAYER_HEALTH=500;
+        Player.PLAYER_HEALTH=500;
         Variables.SPEED=50;
         Player.PlayerIsIdle=true;
         Variables.isCollision=false;
         Player.PlayerDirectionRight=true;
         Player.PlayerY=40;
         Player.PlayerX=70;
-        Variables.SurfaceX=50;
+        Variables.SurfaceX=60;
         Variables.SurfaceX2=1866;
-        Variables.SurfaceY=40;
+        Variables.SurfaceY=60;
         Variables.angle=1;
         Variables.Font.setColor(Color.PINK);
 
@@ -95,12 +87,12 @@ public class MainGame implements Screen {
 
         System.out.println(Variables.camera.view.getScaleX());
         Variables.Font.draw(Variables.batch,"X:" +(int)Player.PlayerX+"Y:"+(int)Player.PlayerY,Player.PlayerX,100);
-        Variables.Font.draw(Variables.batch,"Health:"+MainGame.PLAYER_HEALTH,Player.PlayerX ,90);
+        Variables.Font.draw(Variables.batch,"X:"+Gdx.input.getX()+" ,Health:"+Player.PLAYER_HEALTH,Player.PlayerX ,90);
         Variables.Font.draw(Variables.batch,"|",Player.PlayerX ,80);
 
 
 //         Render Surfaces Objects
-        surfaceObjects.RenderSfObjects(Variables.batch);
+        surfaceObjects.renderSfObjects(Variables.batch);
 //        Snake Positon x460 y38
         enemy.RenderEnemy();
         Player.renderPlayer();
@@ -130,18 +122,17 @@ public class MainGame implements Screen {
         if (Controlls.JUMP){
             Player.PlayerY+=Variables.SPEED*delta+0.5f;
         }
-        if (Player.PlayerY>=Variables.SurfaceY+40){
+        if (Player.PlayerY>Variables.SurfaceY+80){
             Controlls.JUMP = false;
-            Player.PlayerY+=Variables.SPEED*delta+0.5f;
         }
 
         if (!Controlls.JUMP && Player.PlayerY >=Variables.SurfaceY){
-            Player.PlayerY+= Player.velocity*delta;
+            Player.PlayerY-= Variables.SPEED*delta;// -100+surface
         }
-        if (Player.PlayerY>=0&&Player.PlayerY<=Variables.SurfaceY){
-            System.out.println("Player Y Position"+Player.PlayerY);
+        if (Player.PlayerY>=Variables.SurfaceY-10&&Player.PlayerY<=Variables.SurfaceY){
             Controlls.Landed = true;
         }
+        System.out.println();
         Controlls.render(delta);
         Variables.batch.end();
     }
@@ -169,9 +160,10 @@ public class MainGame implements Screen {
     @Override
     public void dispose() {
         Variables.batch.dispose();
-        Player.Texture.dispose();
         Variables.backgroundT.dispose();
         Variables.Font.dispose();
+        Enemies.sound.dispose();
+
 
 
     }

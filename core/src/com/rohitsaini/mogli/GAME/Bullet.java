@@ -1,6 +1,7 @@
 package com.rohitsaini.mogli.GAME;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -12,10 +13,13 @@ public class Bullet {
     private final float BulletY;
     Texture bulletTexture;
     Sprite bullet;
+    Sound bulletSound;
 
 
     Bullet(float bulletX){
         bulletTexture = new Texture("02.png");
+        bulletSound = Gdx.audio.newSound(Gdx.files.internal("Raw-Shoot-Variation01.mp3"));
+        bulletSound.play();
         bullet = new Sprite(bulletTexture);
         this.X=bulletX;
         this.X2=Gdx.graphics.getWidth();
@@ -26,6 +30,7 @@ public class Bullet {
         this.X+=Variables.SPEED*Gdx.graphics.getDeltaTime()*10;
         if (this.X>Variables.SurfaceX2+10){
             remove=true;
+            bulletSound.dispose();
         }
 
     }
