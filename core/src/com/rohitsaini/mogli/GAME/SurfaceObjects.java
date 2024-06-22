@@ -8,6 +8,10 @@ public class SurfaceObjects {
     private Sprite Sand;
     private Sprite Ice;
 
+
+//    objectss
+    Collision SandCollision;
+
     public SurfaceObjects() {
         Texture sandTexture = new Texture("sand.png");
         Texture iceTexture = new Texture("sand.png"); // Assuming there's a separate ice texture
@@ -20,13 +24,14 @@ public class SurfaceObjects {
 
         Ice.setPosition(400, 60);
         Ice.setSize(15, 20);
+        SandCollision= new Collision(Sand);
     }
+
 
     public void renderSfObjects(SpriteBatch batch) {
         Sand.draw(batch);
         Ice.draw(batch);
-        Collision.checkCollision(Sand);
-        Collision.checkCollision(Ice);
+        SandCollision.checkCollision();
     }
 
 

@@ -12,7 +12,6 @@ public class Variables {
     static Texture backgroundT;
     static BitmapFont Font;
 
-
 //    Variables Only
     static float stateTime=0;
     static float SPEED;

@@ -10,18 +10,22 @@ public class Controlls {
     public static void render(float delta){
         if (Player.PLAYER_HEALTH > 0) {
 //        <----------D Key ------->
-            if (Gdx.input.isKeyPressed(Input.Keys.D) && Player.PlayerDirectionRight) {
+            if (Gdx.input.isKeyPressed(Input.Keys.D) && Player.PlayerDirectionRight && Player.canPLayerMoveRight) {
                 Player.Player_State = 1;
                 Player.PlayerDirectionLeft = true;
                 Player.Player_prevX = Player.PlayerX;
                 Player.PlayerX += Variables.SPEED * delta;
                 Variables.camera.translate(Variables.angle * Variables.SPEED * delta, 0f);
-            } else if (Gdx.input.isKeyPressed(Input.Keys.A) && Player.PlayerDirectionLeft) {
+                Player.canPLayerMoveLeft=true;
+
+            } else if (Gdx.input.isKeyPressed(Input.Keys.A) && Player.PlayerDirectionLeft && Player.canPLayerMoveLeft) {
                 Player.Player_State = 11;
                 Player.PlayerDirectionRight = true;
                 Player.Player_prevX = Player.PlayerX;
                 Player.PlayerX -= Variables.SPEED * delta;
                 Variables.camera.translate(Variables.angle * -Variables.SPEED * delta, 0f);
+                Player.canPLayerMoveRight=true;
+
             } else if (!Gdx.input.isKeyPressed(Input.Keys.A) && !Gdx.input.isKeyPressed(Input.Keys.D) && Player.PlayerY <= Variables.SurfaceY) {
                 Player.Player_State = 2;
             }
@@ -37,6 +41,8 @@ public class Controlls {
 
             if (Gdx.input.isKeyPressed(Input.Keys.W)) {
 //            Variables.camera.translate(0f,0f);
+                Variables.SurfaceY++;
+                System.out.println(Variables.SurfaceY);
                 Player.PLAYER_HEALTH = 100;
             }
 

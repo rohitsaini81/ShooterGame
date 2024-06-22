@@ -57,7 +57,7 @@ public class MainGame implements Screen {
         Player.PlayerIsIdle=true;
         Variables.isCollision=false;
         Player.PlayerDirectionRight=true;
-        Player.PlayerY=40;
+        Player.PlayerY=60;
         Player.PlayerX=70;
         Variables.SurfaceX=60;
         Variables.SurfaceX2=1866;

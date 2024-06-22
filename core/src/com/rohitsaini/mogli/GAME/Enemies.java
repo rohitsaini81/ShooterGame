@@ -18,6 +18,7 @@ class Enemies{
     TextureRegion[][] tempsnake;
     Animation<TextureRegion> EnemiesAnimation;
 
+
     Enemies(){
         this.sound= Gdx.audio.newSound(Gdx.files.internal("Ibatman.mp3"));
         this.snake = new Texture("chainsawon38x2.png");
@@ -37,10 +38,6 @@ class Enemies{
     public void RenderEnemy(){
 
         Variables.batch.draw((TextureRegion) this.EnemiesAnimation.getKeyFrame(Variables.stateTime,true),460,70,10,10);
-        if (Collision.checkCollision(Snake)){
-            Player.PLAYER_HEALTH--;
-        }
-
 
     }
 }

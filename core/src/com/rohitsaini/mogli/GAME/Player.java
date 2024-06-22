@@ -15,8 +15,12 @@ public class Player {
     static float Player_prevX;
     static float Player_prevY;
     static int Player_State;
+    static boolean isXCollision;
     static boolean isYCollision;
+
     static float PLAYER_HEALTH;
+    static boolean canPLayerMoveLeft;
+    static boolean canPLayerMoveRight;
 
 
 
@@ -45,6 +49,8 @@ public class Player {
 
     Player (){
         isYCollision=false;
+        canPLayerMoveLeft=true;
+        canPLayerMoveRight=true;
         PlayerWidth=34;PlayerHeight=38;
         Player_State = 2;
         TextureLeft = new Texture("idleshoot.png");
@@ -99,8 +105,13 @@ public class Player {
 
     }
     static void renderPlayer(){
+        if (!isXCollision){
+            Player.canPLayerMoveLeft=true;
+            Player.canPLayerMoveRight=true;
+        }
         if (!isYCollision){
-            Variables.SurfaceY=60;}
+            Variables.SurfaceY=60;
+        }
         switch (Player_State){
             case 0:
                 Variables.batch.draw(Player.playerJumpAnimation.getKeyFrame(Variables.stateTime,true), Player.PlayerX, Player.PlayerY,PlayerWidth,PlayerHeight);
