@@ -37,19 +37,19 @@ public class Collision {
         System.out.println("Center of between Object by XY:"+objectCenterX+","+objectCenterY);
         System.out.println("<--------------I-------------> is :"+i);
 
-        if(distX<=40 || distY>=15){
+        if((distX<=50 && distX>=45) && distY>60){
             Player.isYCollision=No();
         }
         if (distY>50 && distX <= 40){
-            Variables.SurfaceY=100;
+            Variables.SurfaceY=80;
             Player.isYCollision=Yes();
         }
-        if (distY<20 && distX <= 39) {
-            if (distX<=38 && distX>=35){
+        if (distY<20) {
+            if (distX<=41 && distX>=38&& Player.Player_State==1){
                 Player.canPLayerMoveRight=false;
                 Player.isXCollision=Yes();
             }
-            if (distX<=12 && distX>=10){
+            if (distX<=12 && distX>=10&& Player.Player_State==11){
                 Player.canPLayerMoveLeft=false;
                 Player.isXCollision=Yes();
             }
