@@ -23,10 +23,10 @@ public class Mogali extends Game {
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		Menu= new Menu_Screen(this);
-		this.setScreen(Menu);
-//		Game= new MainGame(this);
-//		this.setScreen(Game);
+//		Menu= new Menu_Screen(this);
+//		this.setScreen(Menu);
+		Game= new MainGame(this);
+		this.setScreen(Game);
 	}
 
 	@Override

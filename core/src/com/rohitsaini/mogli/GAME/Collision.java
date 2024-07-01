@@ -1,19 +1,22 @@
 package com.rohitsaini.mogli.GAME;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 
-import static com.rohitsaini.mogli.GAME.myKeyWords.No;
-import static com.rohitsaini.mogli.GAME.myKeyWords.Yes;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+
+
+import static com.rohitsaini.mogli.GAME.myKeyWords.*;
 
 public class Collision {
      static int i=0;
     double distX;
+    double distX2;
     double distY;
     float objectCenterX;
     float objectCenterY;
     Sprite sprite;
+    public static float objX,objX2,objY,objY2;
 
 
 
@@ -22,37 +25,48 @@ public class Collision {
     this.sprite = spriteObject;
     objectCenterX = sprite.getX() + (sprite.getWidth() / 2f);
     objectCenterY = sprite.getY() + (sprite.getHeight() / 2f);
+    objX = sprite.getX();
+    objX2 = sprite.getX()+sprite.getWidth();
+    objY = sprite.getY();
+    objY2 = sprite.getY() + (sprite.getHeight() / 2f);
 }
     public void checkCollision() {
-        if (Gdx.input.isKeyPressed(Input.Keys.UP)){
-            i++;
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.DOWN)){
-            i--;
-        }
 
-        distX= Math.sqrt(Math.pow(((int)objectCenterX - Player.PlayerX), 2));
+        distX= Math.sqrt(Math.pow(((int)objX - Player.PlayerX), 2));
+        distX2=Math.sqrt(Math.pow(((int)objX2 - Player.PlayerX), 2));
         distY =Math.sqrt (Math.pow(Math.abs(objectCenterY-Player.PlayerY),2));
-        System.out.println("Distance between Player and Object is X:"+distX+",Y:"+distY);
+        System.out.println("Distance between Player and Object is X2:"+distX2+",X:::"+distX);
         System.out.println("Center of between Object by XY:"+objectCenterX+","+objectCenterY);
-        System.out.println("<--------------I-------------> is :"+i);
 
-        if((distX<=50 && distX>=45) && distY>60){
-            Player.isYCollision=No();
-        }
-        if (distY>50 && distX <= 40){
+
+//        if((distX<=34 && distX>30) && distY>60){
+//            Player.isYCollision=No();
+//        }
+        System.out.println("Surface Collision,objx"+objX+"objx2"+objX2);
+
+        if (Player.PlayerY>=objY2 && (Player.PlayerX>=objX-sprite.getWidth() && Player.PlayerX<=316) ){
             Variables.SurfaceY=80;
             Player.isYCollision=Yes();
-        }
-        if (distY<20) {
-            if (distX<=41 && distX>=38&& Player.Player_State==1){
+        }else reset();
+
+        if (Player.PlayerY<objY2) {
+            if (distX<=35 && distX>=30 && Player.PlayerX<objX2+1 && Player.Player_State==1){
+                System.out.println("Right Collision");
                 Player.canPLayerMoveRight=false;
+                Variables.angle=0;
+                Player.PlayerX-=Variables.SPEED * Gdx.graphics.getDeltaTime();
                 Player.isXCollision=Yes();
             }
-            if (distX<=12 && distX>=10&& Player.Player_State==11){
+            else {Player.canPLayerMoveRight=Yes();Variables.angle=1;}
+
+            if (Player.PlayerX<=objX2+1 && Player.PlayerX>objX-1&& Player.Player_State==11){
+                System.out.println("Left Collision");
                 Player.canPLayerMoveLeft=false;
-                Player.isXCollision=Yes();
+                Variables.angle=0;
+                Player.PlayerX+=Variables.SPEED * Gdx.graphics.getDeltaTime();
+//                Player.isXCollision=Yes();
             }
+            else {Player.canPLayerMoveLeft=Yes();Variables.angle=1;}
         }
     }
 }

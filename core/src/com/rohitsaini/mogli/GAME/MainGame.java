@@ -3,12 +3,18 @@ package com.rohitsaini.mogli.GAME;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.utils.ScreenUtils;
 import java.util.ArrayList;
+
+import static com.rohitsaini.mogli.GAME.Player.textureenemey;
+import static com.rohitsaini.mogli.GAME.myKeyWords.*;
 
 
 public class MainGame implements Screen {
@@ -20,6 +26,9 @@ public class MainGame implements Screen {
     static float loopValue=0;
     static  int bg_times=5;
     static ArrayList<Bullet> bullets;
+    static ShapeRenderer shapeRenderer;
+    static Shapes shapes;
+
 
 
     Enemies enemy;
@@ -28,17 +37,20 @@ public class MainGame implements Screen {
 
     public MainGame(Game game) {
         this.game = game;
+        shapeRenderer= new ShapeRenderer();
+
         Variables.camera = new OrthographicCamera(W2/2,H/2);
         Variables.camera.setToOrtho(false, W2/2 ,H/2);
 
 //        Class Objects = new;
         enemy = new Enemies();
         bullets= new ArrayList<>();
+        states = new ArrayList<>();
+        shapes = new Shapes();
 
 
 
         surfaceObjects = new SurfaceObjects();
-
         Variables.batch = new SpriteBatch();
         player= new Player();
         Variables.backgroundT = new Texture("Background.png");
@@ -64,6 +76,8 @@ public class MainGame implements Screen {
         Variables.SurfaceY=60;
         Variables.angle=1;
         Variables.Font.setColor(Color.PINK);
+        states.add("X:" +(int)Player.PlayerX+"Y:"+(int)Player.PlayerY);
+        states.add("X:"+Gdx.input.getX()+" ,Health:"+Player.PLAYER_HEALTH);
 
     }
 //  <----------- Render Method -------------->
@@ -86,8 +100,15 @@ public class MainGame implements Screen {
 
 
         System.out.println(Variables.camera.view.getScaleX());
-        Variables.Font.draw(Variables.batch,"X:" +(int)Player.PlayerX+"Y:"+(int)Player.PlayerY,Player.PlayerX,100);
-        Variables.Font.draw(Variables.batch,"X:"+Gdx.input.getX()+" ,Health:"+Player.PLAYER_HEALTH,Player.PlayerX ,90);
+        states.set(0,"X:" +(int)Player.PlayerX+"Y:"+(int)Player.PlayerY);
+        states.set(1,"X:"+Gdx.input.getX()+" ,Health:"+Player.PLAYER_HEALTH);
+
+        for (int i = 0; i < states.size(); i++) {
+//            System.out.println(states.get(0));
+            Variables.Font.draw(Variables.batch, states.get(i),Player.PlayerX,my_Y+(i*100));
+
+        }
+
         Variables.Font.draw(Variables.batch,"|",Player.PlayerX ,80);
 
 
@@ -96,6 +117,12 @@ public class MainGame implements Screen {
 //        Snake Positon x460 y38
         enemy.RenderEnemy();
         Player.renderPlayer();
+
+
+        Variables.batch.draw(textureenemey,Player.PlayerX,my_Y,40,60);
+
+
+
 
 
 
@@ -134,7 +161,12 @@ public class MainGame implements Screen {
         }
         System.out.println();
         Controlls.render(delta);
+
         Variables.batch.end();
+        shapes.shaperender();
+
+
+
     }
 
     @Override
@@ -163,6 +195,7 @@ public class MainGame implements Screen {
         Variables.backgroundT.dispose();
         Variables.Font.dispose();
         Enemies.sound.dispose();
+        Shapes.shapeRenderer.dispose();
 
 
 

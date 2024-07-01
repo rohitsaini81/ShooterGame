@@ -28,6 +28,7 @@ public class Player {
 
 //     Non-Primitive Variables
     static float PlayerX,PlayerY,PlayerWidth,PlayerHeight;
+    static Texture textureenemey;
     static Texture TextureLeft,TextureRight;
     static Texture Texture2Left,Texture2Right;
     static Texture Texture3Left,Texture3Right;
@@ -60,6 +61,8 @@ public class Player {
         Texture2Right= new Texture("runningshooter.png");
 //        Texture3Left= new Texture("jumpshooter.png");
         Texture3Right= new Texture("jumpshooter.png");
+        textureenemey = new Texture("Off.png");
+
 
 
 //      Idle

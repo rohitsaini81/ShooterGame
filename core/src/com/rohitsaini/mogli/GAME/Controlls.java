@@ -3,6 +3,9 @@ package com.rohitsaini.mogli.GAME;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 
+import static com.rohitsaini.mogli.GAME.myKeyWords.my_X;
+import static com.rohitsaini.mogli.GAME.myKeyWords.my_Y;
+
 public class Controlls {
     public static boolean JUMP= false;
     public static boolean Landed= true;
@@ -10,20 +13,23 @@ public class Controlls {
     public static void render(float delta){
         if (Player.PLAYER_HEALTH > 0) {
 //        <----------D Key ------->
-            if (Gdx.input.isKeyPressed(Input.Keys.D) && Player.PlayerDirectionRight && Player.canPLayerMoveRight) {
+            if (Gdx.input.isKeyPressed(Input.Keys.D) && Player.PlayerDirectionRight) {
+                my_X++;
                 Player.Player_State = 1;
                 Player.PlayerDirectionLeft = true;
                 Player.Player_prevX = Player.PlayerX;
                 Player.PlayerX += Variables.SPEED * delta;
-                Variables.camera.translate(Variables.angle * Variables.SPEED * delta, 0f);
+
+                if (Player.canPLayerMoveRight){Variables.camera.translate(Variables.angle * Variables.SPEED * delta, 0f);}
                 Player.canPLayerMoveLeft=true;
 
-            } else if (Gdx.input.isKeyPressed(Input.Keys.A) && Player.PlayerDirectionLeft && Player.canPLayerMoveLeft) {
+            } else if (Gdx.input.isKeyPressed(Input.Keys.A) && Player.PlayerDirectionLeft) {
+                my_X--;
                 Player.Player_State = 11;
                 Player.PlayerDirectionRight = true;
                 Player.Player_prevX = Player.PlayerX;
                 Player.PlayerX -= Variables.SPEED * delta;
-                Variables.camera.translate(Variables.angle * -Variables.SPEED * delta, 0f);
+                if (Player.canPLayerMoveLeft){Variables.camera.translate(Variables.angle * -Variables.SPEED * delta, 0f);}
                 Player.canPLayerMoveRight=true;
 
             } else if (!Gdx.input.isKeyPressed(Input.Keys.A) && !Gdx.input.isKeyPressed(Input.Keys.D) && Player.PlayerY <= Variables.SurfaceY) {
