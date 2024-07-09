@@ -147,13 +147,16 @@ public class MainGame implements Screen {
 //        JUMP FUNCTIONALITY HERE
 
         if (Controlls.JUMP){
+            Player.Player_prevY = Player.PlayerY;
             Player.PlayerY+=Variables.SPEED*delta+0.5f;
         }
         if (Player.PlayerY>Variables.SurfaceY+80){
+            Player.Player_prevY = Player.PlayerY;
             Controlls.JUMP = false;
         }
 
         if (!Controlls.JUMP && Player.PlayerY >=Variables.SurfaceY){
+            Player.Player_prevY = Player.PlayerY;
             Player.PlayerY-= Variables.SPEED*delta;// -100+surface
         }
         if (Player.PlayerY>=Variables.SurfaceY-10&&Player.PlayerY<=Variables.SurfaceY){

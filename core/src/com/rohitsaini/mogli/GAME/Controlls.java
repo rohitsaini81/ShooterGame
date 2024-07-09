@@ -14,20 +14,22 @@ public class Controlls {
         if (Player.PLAYER_HEALTH > 0) {
 //        <----------D Key ------->
             if (Gdx.input.isKeyPressed(Input.Keys.D) && Player.PlayerDirectionRight) {
+
+                Player.Player_prevX = Player.PlayerX;
                 my_X++;
                 Player.Player_State = 1;
                 Player.PlayerDirectionLeft = true;
-                Player.Player_prevX = Player.PlayerX;
                 Player.PlayerX += Variables.SPEED * delta;
 
                 if (Player.canPLayerMoveRight){Variables.camera.translate(Variables.angle * Variables.SPEED * delta, 0f);}
                 Player.canPLayerMoveLeft=true;
 
             } else if (Gdx.input.isKeyPressed(Input.Keys.A) && Player.PlayerDirectionLeft) {
+
+                Player.Player_prevX = Player.PlayerX;
                 my_X--;
                 Player.Player_State = 11;
                 Player.PlayerDirectionRight = true;
-                Player.Player_prevX = Player.PlayerX;
                 Player.PlayerX -= Variables.SPEED * delta;
                 if (Player.canPLayerMoveLeft){Variables.camera.translate(Variables.angle * -Variables.SPEED * delta, 0f);}
                 Player.canPLayerMoveRight=true;
@@ -39,6 +41,8 @@ public class Controlls {
 
 //        <----------SpaceBar Key ------->
             if (Player.PLAYER_HEALTH > 0 && Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && Landed) {
+
+                Player.Player_prevY = Player.PlayerY;
                 Player.Player_State = 0;
                 Landed = false;
                 JUMP = true;
@@ -51,6 +55,9 @@ public class Controlls {
                 System.out.println(Variables.SurfaceY);
                 Player.PLAYER_HEALTH = 100;
             }
+            if (Gdx.input.isKeyPressed(Input.Keys.Q)) {
+            	Gdx.app.exit();
+              }
 
             Player.Player_prevX = Player.PlayerX;
 

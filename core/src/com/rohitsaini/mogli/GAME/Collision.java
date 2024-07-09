@@ -42,15 +42,20 @@ public class Collision {
 //        if((distX<=34 && distX>30) && distY>60){
 //            Player.isYCollision=No();
 //        }
+        System.out.println("\nOBJECT X:"+objX+"||"+ this.sprite.getX());
+        sout("hii");
         System.out.println("Surface Collision,objx"+objX+"objx2"+objX2);
-
-        if (Player.PlayerY>=objY2 && (Player.PlayerX>=objX-sprite.getWidth() && Player.PlayerX<=316) ){
+// Y SURFACE !
+        if (Player.PlayerY>=objY2 && ( (Player.PlayerX>=objX-sprite.getWidth() && Player.PlayerX<=316) 
+//        		||(Player.PlayerX+15>=objX-sprite.getWidth() && Player.PlayerX<=316)
+        		)){
             Variables.SurfaceY=80;
             Player.isYCollision=Yes();
         }else reset();
-
+       
         if (Player.PlayerY<objY2) {
-            if (distX<=35 && distX>=30 && Player.PlayerX<objX2+1 && Player.Player_State==1){
+        	
+            if (distX<=16 && distX>=15 && Player.PlayerX<objX2+1 && (Player.Player_State==1 || Player.Player_State==11 )){
                 System.out.println("Right Collision");
                 Player.canPLayerMoveRight=false;
                 Variables.angle=0;
@@ -68,5 +73,6 @@ public class Collision {
             }
             else {Player.canPLayerMoveLeft=Yes();Variables.angle=1;}
         }
+//        if()
     }
 }

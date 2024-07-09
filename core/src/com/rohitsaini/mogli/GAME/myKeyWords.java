@@ -22,4 +22,7 @@ public class myKeyWords {
         Variables.SurfaceY=60;
 //        Variables.angle=1;
     }
+    public static void sout(String obj_String) {
+    	System.out.println(obj_String);
+    }
 }

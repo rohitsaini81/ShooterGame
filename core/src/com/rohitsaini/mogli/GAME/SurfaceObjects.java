@@ -24,14 +24,14 @@ public class SurfaceObjects {
 
         Ice.setPosition(400, 60);
         Ice.setSize(15, 20);
-        SandCollision= new Collision(Sand);
+//        SandCollision= new Collision(Sand);
     }
 
 
     public void renderSfObjects(SpriteBatch batch) {
         Sand.draw(batch);
         Ice.draw(batch);
-        SandCollision.checkCollision();
+//        SandCollision.checkCollision();
     }
 
 
