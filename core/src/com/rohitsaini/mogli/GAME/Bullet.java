@@ -15,6 +15,7 @@ public class Bullet {
     Texture bulletTexture;
     Sprite bullet;
     Sound bulletSound;
+    private Boolean playerState;
 
 
     Bullet(float bulletX){
@@ -22,13 +23,24 @@ public class Bullet {
         bulletSound = Gdx.audio.newSound(Gdx.files.internal("Raw-Shoot-Variation01.mp3"));
         bulletSound.play();
         bullet = new Sprite(bulletTexture);
-        this.X=bulletX;
-        this.X2=Gdx.graphics.getWidth();
+        
+        if(Player.Player_State==1) {
+        	this.X=bulletX;
+        	this.X2=Gdx.graphics.getWidth();
+        	this.playerState=true;}
+        else {
+        	this.X=(bulletX-35);
+        	this.X2=Gdx.graphics.getWidth();
+        	this.playerState=false;}
+        
         this.BulletY=Player.PlayerY+Player.PlayerHeight-15;
         System.out.println("BulletX:"+X);
     }
     public void update(){
-        this.X+=Variables.SPEED*Gdx.graphics.getDeltaTime()*10;
+    	if(this.playerState) {
+    		this.X+=Variables.SPEED*Gdx.graphics.getDeltaTime()*10;	
+    	}else {this.X-=Variables.SPEED*Gdx.graphics.getDeltaTime()*10;}
+        
         if (this.X>Variables.SurfaceX2+10){
             remove=true;
             bulletSound.dispose();

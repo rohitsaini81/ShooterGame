@@ -15,7 +15,7 @@ public class Controlls {
 //        <----------D Key ------->
             if (Gdx.input.isKeyPressed(Input.Keys.D) && Player.PlayerDirectionRight) {
 
-                Player.Player_prevX = Player.PlayerX;
+               
                 my_X++;
                 Player.Player_State = 1;
                 Player.PlayerDirectionLeft = true;

@@ -163,10 +163,11 @@ public class MainGame implements Screen {
             Controlls.Landed = true;
         }
         System.out.println();
-        Controlls.render(delta);
+        
 
         Variables.batch.end();
         shapes.shaperender();
+        Controlls.render(delta);
 
 
 

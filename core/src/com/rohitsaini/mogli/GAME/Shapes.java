@@ -16,6 +16,7 @@ public class Shapes {
 
     }
     public void shaperender(){
+    	 Player.Player_prevX = Player.PlayerX-0.8f;
     	shapes.set(300,60,15,20);
     	player.set(Player.PlayerX, Player.PlayerY, 15, 40);
     	sout("--"+player.getX());
