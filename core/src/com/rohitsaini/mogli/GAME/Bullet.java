@@ -24,7 +24,7 @@ public class Bullet {
         bulletSound.play();
         bullet = new Sprite(bulletTexture);
         
-        if(Player.Player_State==1) {
+        if(Player.Player_State==1 || Player.Player_State==0) {
         	this.X=bulletX;
         	this.X2=Gdx.graphics.getWidth();
         	this.playerState=true;}

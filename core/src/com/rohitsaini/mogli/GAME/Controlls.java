@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 
 import static com.rohitsaini.mogli.GAME.myKeyWords.my_X;
-import static com.rohitsaini.mogli.GAME.myKeyWords.my_Y;
 
 public class Controlls {
     public static boolean JUMP= false;
@@ -21,7 +20,7 @@ public class Controlls {
                 Player.Player_State = 1;
                 Player.PlayerDirectionLeft = true;
                 Player.PlayerX += Variables.SPEED * delta;
-                if(Shapes.check_collision()) {Player.PlayerX=Player.Player_prevX-0.05f;}
+                if(Shapes.check_collision()) {Player.PlayerX=Player.Player_prevX-0.03f;}
                 else{Variables.camera.translate(Variables.angle * Variables.SPEED * delta, 0f);}
                 Player.canPLayerMoveLeft=true;
 
@@ -33,7 +32,7 @@ public class Controlls {
                 Player.Player_State = 11;
                 Player.PlayerDirectionRight = true;
                 Player.PlayerX -= Variables.SPEED * delta;
-                if(Shapes.check_collision()) {Player.PlayerX=Player.Player_prevX+0.05f;}
+                if(Shapes.check_collision()) {Player.PlayerX=Player.Player_prevX+0.03f;}
                 else{Variables.camera.translate(Variables.angle * -Variables.SPEED * delta, 0f);}
                 Player.canPLayerMoveRight=true;
 

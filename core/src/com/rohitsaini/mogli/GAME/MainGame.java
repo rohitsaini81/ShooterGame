@@ -205,7 +205,7 @@ public class MainGame implements Screen {
     public void dispose() {
         Variables.batch.dispose();
         Variables.backgroundT.dispose();
-        Variables.Font.dispose();
+//        Variables.Font.dispose();
         Enemies.sound.dispose();
         Shapes.shapeRenderer.dispose();
 
