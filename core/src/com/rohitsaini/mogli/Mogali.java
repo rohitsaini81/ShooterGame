@@ -37,7 +37,6 @@ super.render();
 	@Override
 	public void dispose () {
 		batch.dispose();
-		img.dispose();
 		font.dispose();
 
 	}

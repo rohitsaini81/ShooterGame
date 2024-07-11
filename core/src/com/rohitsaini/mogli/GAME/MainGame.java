@@ -84,6 +84,9 @@ public class MainGame implements Screen {
 
     @Override
     public void render(float delta) {
+        Player.Player_prevX = Player.PlayerX;
+        Controlls.render(delta);
+
         loopValue+=1;
         if(loopValue>=230){loopValue=0;}
         ScreenUtils.clear(0, 0, 0, 1);
@@ -157,20 +160,25 @@ public class MainGame implements Screen {
 
         if (!Controlls.JUMP && Player.PlayerY >=Variables.SurfaceY){
             Player.Player_prevY = Player.PlayerY;
+            if(Shapes.check_collision_surface()) {
+            	if(Player.Player_Prev_State==1) {
+            		Player.Player_State=0;
+            	}else {
+            		Player.Player_State=11;
+            	}
+            	Controlls.Landed = true;
+            }else {
             Player.PlayerY-= Variables.SPEED*delta;// -100+surface
+            }
         }
         if (Player.PlayerY>=Variables.SurfaceY-10&&Player.PlayerY<=Variables.SurfaceY){
             Controlls.Landed = true;
         }
         System.out.println();
         
-
+       
         Variables.batch.end();
         shapes.shaperender();
-        Controlls.render(delta);
-
-
-
     }
 
     @Override

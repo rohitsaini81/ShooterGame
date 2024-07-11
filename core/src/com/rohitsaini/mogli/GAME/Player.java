@@ -15,6 +15,7 @@ public class Player {
     static float Player_prevX;
     static float Player_prevY;
     static int Player_State;
+    static int Player_Prev_State;
     static boolean isXCollision;
     static boolean isYCollision;
 

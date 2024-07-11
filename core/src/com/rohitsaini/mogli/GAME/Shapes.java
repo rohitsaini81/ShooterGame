@@ -16,16 +16,12 @@ public class Shapes {
 
     }
     public void shaperender(){
-    	 Player.Player_prevX = Player.PlayerX-0.8f;
+    	
+    
     	shapes.set(300,60,15,20);
     	player.set(Player.PlayerX, Player.PlayerY, 15, 40);
     	sout("--"+player.getX());
-    	if(player.overlaps(shapes)) {
-    		sout("!!! COLLISION DETECTED CHECK THIS");
-    		Player.PlayerX=Player.Player_prevX;
-//    		if(Player.PlayerY<(shapes.getY()+15)){Player.PlayerY=Player.Player_prevY;}
-//    		if(Player.Player_State==1 || Player.Player_State==11) {Player.PlayerX=Player.Player_prevX;}
-    	}
+    	
         shapeRenderer.setProjectionMatrix(Variables.camera.combined);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         shapeRenderer.setColor(Color.RED);
@@ -35,6 +31,26 @@ public class Shapes {
         shapeRenderer.line(Collision.objX,60f,Collision.objX2,80f);
         shapeRenderer.line(Collision.objX2,60f,Collision.objX,0f);
         shapeRenderer.end();
+    }
+    
+    public static boolean check_collision() {
+    	if(player.overlaps(shapes)) {			
+    		if(Player.PlayerY<(shapes.getY()+15)){
+    			return true;
+    			}
+//    		if(Player.Player_State==1 || Player.Player_State==11) {Player.PlayerX=Player.Player_prevX;}
+    	}
+    	return false;    	
+    }
+    public static boolean check_collision_surface() {
+    	if(player.overlaps(shapes)) {		
+    		if(Player.PlayerY>(shapes.getY()+15)){
+    			sout("Y Surface Collision");
+    			return true;
+    			}
+//    		if(Player.Player_State==1 || Player.Player_State==11) {Player.PlayerX=Player.Player_prevX;}
+    	}
+    	return false;    	
     }
 
 }
