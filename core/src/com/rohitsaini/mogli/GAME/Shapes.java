@@ -38,14 +38,26 @@ public class Shapes {
         // ( X,Y,WIDTH, HEIGHT ) POSITION 300 TO 300+15 LEFT TO RIGHT AND BOTTOM TO TOP
 
         shapeRenderer.line(Collision.objX,60f,Collision.objX2,80f);
-        shapeRenderer.line(Collision.objX2,60f,Collision.objX,0f);
+        shapeRenderer.line(Collision.objX2,60f,Collision.objX,200f);
         shapeRenderer.end();
+        this.myshapes();
+        
+        
+//        here we update jammers stability
+//        static jammers could be on constructor because they are not going to destroy like enemy
         all_shapes.add(BoxJammer1);
         all_shapes.add(SurfaceObjects.BoxJammer2);
+        
     }
-    private void attribute () {
-    	
-    }
+
+   private void myshapes () {
+	   shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+       shapeRenderer.line(0f,100f,Player.PlayerX,200f);
+       shapeRenderer.end();
+	   
+	   
+   }
+   
     
     public static boolean check_collision() {
     	for (int i=0;i<all_shapes.size();i++) {

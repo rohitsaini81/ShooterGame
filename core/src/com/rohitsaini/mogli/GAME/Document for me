@@ -4,3 +4,7 @@ PLAYER STATE 11 = RUNNING LEFT
 PLAYER STATE DEFAULT = IDEL
 PLAYER WIDTH = 15
 PLAYER HEIGHT = 40
+
+
+
+for a new object with collisition detection use two classes 1 SurfaceObjects 2 Shapes

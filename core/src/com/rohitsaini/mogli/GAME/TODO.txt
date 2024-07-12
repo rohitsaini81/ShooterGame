@@ -1,2 +1,1 @@
-> new problem is Shapes class function are called later after there changes in Player_prev value
-1: So Task is to remake new CheckCollision method with Math.Rectangle Overlaps
+spawn enemies with collsition detection and health damage on interaction
