@@ -3,6 +3,8 @@ package com.rohitsaini.mogli.GAME;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+
+import static com.rohitsaini.mogli.GAME.enemies.Enemies.BoxJammer3;
 import static com.rohitsaini.mogli.GAME.myKeyWords.*;
 
 import java.util.ArrayList;
@@ -14,7 +16,7 @@ public class Shapes {
     static ArrayList<Rectangle>all_shapes;
     Shapes (){
         shapeRenderer= new ShapeRenderer();
-        all_shapes = new ArrayList<Rectangle>();
+        all_shapes = new ArrayList<>();
         BoxJammer1 = new Rectangle(300,60,15,20);
         player = new Rectangle(0,0,0,0);
         
@@ -47,6 +49,7 @@ public class Shapes {
 //        static jammers could be on constructor because they are not going to destroy like enemy
         all_shapes.add(BoxJammer1);
         all_shapes.add(SurfaceObjects.BoxJammer2);
+        all_shapes.add(BoxJammer3);
         
     }
 

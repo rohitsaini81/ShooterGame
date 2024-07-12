@@ -1,1 +1,3 @@
 spawn enemies with collsition detection and health damage on interaction
+2 make enemies to kinematic so player position will change with enemy interaction
+solution: separate enemies collision system it's class !

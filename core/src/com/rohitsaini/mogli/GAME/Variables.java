@@ -7,13 +7,13 @@ import com.badlogic.gdx.graphics.g2d.*;
 public class Variables {
 //    Big Objects Only
     static OrthographicCamera camera;
-    static SpriteBatch batch;
+    public static SpriteBatch batch;
     static Sprite sprite;
     static Texture backgroundT;
     static BitmapFont Font;
 
 //    Variables Only
-    static float stateTime=0;
+    public static float stateTime=0;
     static float SPEED;
     static float SurfaceX;
     static float SurfaceX2;
