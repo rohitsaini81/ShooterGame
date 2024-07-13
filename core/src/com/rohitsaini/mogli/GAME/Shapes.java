@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
-import static com.rohitsaini.mogli.GAME.enemies.Enemies.BoxJammer3;
 import static com.rohitsaini.mogli.GAME.myKeyWords.*;
 
 import java.util.ArrayList;
@@ -12,9 +11,12 @@ import java.util.ArrayList;
 public class Shapes {
     static ShapeRenderer shapeRenderer;
     static Rectangle BoxJammer1;
-    static Rectangle player;
+     public static Rectangle player;
     static ArrayList<Rectangle>all_shapes;
+    public static boolean collision_x_on;
+    public static int collision_id;
     Shapes (){
+        collision_x_on=false;
         shapeRenderer= new ShapeRenderer();
         all_shapes = new ArrayList<>();
         BoxJammer1 = new Rectangle(300,60,15,20);
@@ -31,7 +33,7 @@ public class Shapes {
     	
 
     	player.set(Player.PlayerX, Player.PlayerY, 15, 40);
-    	sout("--"+player.getX());
+//    	sout("--"+player.getX());
     	
         shapeRenderer.setProjectionMatrix(Variables.camera.combined);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
@@ -49,7 +51,7 @@ public class Shapes {
 //        static jammers could be on constructor because they are not going to destroy like enemy
         all_shapes.add(BoxJammer1);
         all_shapes.add(SurfaceObjects.BoxJammer2);
-        all_shapes.add(BoxJammer3);
+//        all_shapes.add(BoxJammer3);
         
     }
 
@@ -66,22 +68,44 @@ public class Shapes {
     	for (int i=0;i<all_shapes.size();i++) {
     		if(player.overlaps(all_shapes.get(i))) {		
         		if(Player.PlayerY<(all_shapes.get(i).getY()+15)){
+                    collision_id=i;
+                    collision_x_on=true;
         			return true;
         			}
         	}
     	}
+        collision_x_on=false;
     	return false;    	
+    }
+    public static boolean check_collision(Rectangle R) {
+            if(player.overlaps(R)) {
+                if(Player.PlayerY<(R.getY()+15)){
+                    return true;
+                }
+            }
+        return false;
     }
     public static boolean check_collision_surface() {
     	for (int i=0;i<all_shapes.size();i++) {
     	if(player.overlaps(all_shapes.get(i))) {		
     		if(Player.PlayerY>(all_shapes.get(i).getY()+15)){
-    			sout("Y Surface Collision");
+//    			sout("Y Surface Collision");
     			return true;
     			}
     	}
     	}
     	return false;    	
+    }
+    public static boolean check_collision_surface(Rectangle R) {
+
+            if(player.overlaps(R)) {
+                if(Player.PlayerY>(R.getY()+15)){
+//                    sout("Y Surface Collision");
+                    return true;
+                }
+            }
+
+        return false;
     }
 
 }

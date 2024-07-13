@@ -1,5 +1,7 @@
 package com.rohitsaini.mogli.GAME;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -19,7 +21,8 @@ public class Player {
     static boolean isXCollision;
     static boolean isYCollision;
 
-    static float PLAYER_HEALTH;
+    public static float PLAYER_HEALTH;
+    static Sound playerDead;
     static boolean canPLayerMoveLeft;
     static boolean canPLayerMoveRight;
 
@@ -28,7 +31,10 @@ public class Player {
 
 
 //     Non-Primitive Variables
-    static float PlayerX,PlayerY,PlayerWidth,PlayerHeight;
+    static float PlayerX;
+    public static float PlayerY;
+    static float PlayerWidth;
+    static float PlayerHeight;
     static Texture textureenemey;
     static Texture TextureLeft,TextureRight;
     static Texture Texture2Left,Texture2Right;
@@ -49,12 +55,28 @@ public class Player {
 
 //
 
+
+    public static void setX(float playerX) {
+        PlayerX = playerX;
+    }
+    public static float getX() {
+        return PlayerX;
+    }
+    public static void setY(float playerY) {
+        PlayerX = playerY;
+    }
+
     Player (){
         isYCollision=false;
         canPLayerMoveLeft=true;
         canPLayerMoveRight=true;
         PlayerWidth=34;PlayerHeight=38;
         Player_State = 2;
+        playerDead=Gdx.audio.newSound(Gdx.files.internal("playerSound/ouchmp3-14591.mp3"));
+//        ouchmp3-14591.mp3
+//        characterouch2-163912.mp3
+//        male_hurt7-48124.mp3
+//        punch sound ::>> punch-2-123106.mp3
         TextureLeft = new Texture("idleshoot.png");
         TextureRight = new Texture("R_idleshoot.png");
 

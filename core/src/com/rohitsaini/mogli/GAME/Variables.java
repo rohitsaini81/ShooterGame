@@ -14,7 +14,8 @@ public class Variables {
 
 //    Variables Only
     public static float stateTime=0;
-    static float SPEED;
+    public static float SPEED;
+    public static float deltaTime;
     static float SurfaceX;
     static float SurfaceX2;
     static float SurfaceY;

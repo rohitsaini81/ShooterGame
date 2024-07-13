@@ -65,8 +65,9 @@ public class MainGame implements Screen {
 
     @Override
     public void show() {
-        Player.PLAYER_HEALTH=500;
+        Player.PLAYER_HEALTH=100;
         Variables.SPEED=50;
+        Variables.deltaTime=Gdx.graphics.getDeltaTime();
         Player.PlayerIsIdle=true;
         Variables.isCollision=false;
         Player.PlayerDirectionRight=true;
@@ -85,6 +86,7 @@ public class MainGame implements Screen {
 
     @Override
     public void render(float delta) {
+        Variables.deltaTime=delta;
         Player.Player_prevX = Player.PlayerX;
         Controlls.render(delta);
 
@@ -103,7 +105,7 @@ public class MainGame implements Screen {
         }
 
 
-        System.out.println(Variables.camera.view.getScaleX());
+//        System.out.println("camera.view.getScaleX()"+Variables.camera.view.getScaleX()); it return 1.0 always
         states.set(0,"X:" +(int)Player.PlayerX+"Y:"+(int)Player.PlayerY);
         states.set(1,"X:"+Gdx.input.getX()+" ,Health:"+Player.PLAYER_HEALTH);
 
@@ -175,7 +177,7 @@ public class MainGame implements Screen {
         if (Player.PlayerY>=Variables.SurfaceY-10&&Player.PlayerY<=Variables.SurfaceY){
             Controlls.Landed = true;
         }
-        System.out.println();
+//        System.out.println();
         
        
         Variables.batch.end();
