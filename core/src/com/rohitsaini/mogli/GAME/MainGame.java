@@ -14,7 +14,7 @@ import com.rohitsaini.mogli.GAME.enemies.Enemies;
 
 import java.util.ArrayList;
 
-import static com.rohitsaini.mogli.GAME.Player.textureenemey;
+//import static com.rohitsaini.mogli.GAME.Player.textureenemey;
 import static com.rohitsaini.mogli.GAME.myKeyWords.*;
 
 
@@ -32,7 +32,7 @@ public class MainGame implements Screen {
 
 
 
-    Enemies enemy;
+    public static Enemies enemy;
     Player player;
     SurfaceObjects surfaceObjects;
 
@@ -125,7 +125,7 @@ public class MainGame implements Screen {
         Player.renderPlayer();
 
 
-        Variables.batch.draw(textureenemey,Player.PlayerX,my_Y,40,60);
+//        Variables.batch.draw(textureenemey,Player.PlayerX,my_Y,40,60);
 
 
 
@@ -135,11 +135,15 @@ public class MainGame implements Screen {
 
 
 //        Bullet Functionality HERE
-
 //        <Update Bullets>
         ArrayList<Bullet>bulletstoRemove = new ArrayList<>();
         for (Bullet bullet:bullets){
             bullet.update();
+            if (enemy.enemyHealth>0&&bullet.bulletRect.overlaps(enemy.EnemyJammer1)){
+                bullet.bolletWall = enemy.getX();
+                System.out.println("Enemy got injured");
+                enemy.enemyHealth-=2;
+            }
             if (bullet.remove){
                 bulletstoRemove.add(bullet);}
         }
@@ -182,6 +186,9 @@ public class MainGame implements Screen {
        
         Variables.batch.end();
         shapes.shaperender();
+        System. out. print("\033[H\033[2J");
+        System. out. flush();
+
     }
 
     @Override
@@ -209,7 +216,7 @@ public class MainGame implements Screen {
         Variables.batch.dispose();
         Variables.backgroundT.dispose();
 //        Variables.Font.dispose();
-        Enemies.sound.dispose();
+        enemy.sound.dispose();
         Shapes.shapeRenderer.dispose();
 
 

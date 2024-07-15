@@ -28,14 +28,14 @@ public class Controlls {
                 my_X++;
                 Player.Player_Prev_State=Player.Player_State;
                 Player.Player_State = 1;
-                Player.PlayerDirectionLeft = true;
+                Player.PlayerDirectionRight = true;
                 Player.PlayerX += Variables.SPEED * delta;
                 if(Shapes.check_collision()) {
                     if (Player.getX()<(Shapes.all_shapes.get(Shapes.collision_id).getX()+7.5f)){
                     Player.PlayerX=Player.Player_prevX-0.01f;
                 }
                 }
-                else{Variables.camera.translate(Variables.angle * Variables.SPEED * delta, 0f);}
+                else{Variables.camera.position.set(Player.getX(),Variables.camera.viewportHeight / 2, 0);}
                 Player.canPLayerMoveLeft=true;
 
             } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
@@ -44,14 +44,14 @@ public class Controlls {
                 my_X--;
                 Player.Player_Prev_State=Player.Player_State;
                 Player.Player_State = 11;
-                Player.PlayerDirectionRight = true;
+                Player.PlayerDirectionRight = false;
                 Player.PlayerX -= Variables.SPEED * delta;
                 if(Shapes.check_collision()) {
                     if (Player.getX()>(Shapes.all_shapes.get(Shapes.collision_id).getX()+10)){
                         Player.PlayerX=Player.Player_prevX+0.01f;
                     }
                 }
-                else{Variables.camera.translate(Variables.angle * -Variables.SPEED * delta, 0f);}
+                else{Variables.camera.position.set(Player.getX(),Variables.camera.viewportHeight / 2, 0);}
                 Player.canPLayerMoveRight=true;
 
             } else if (!Gdx.input.isKeyPressed(Input.Keys.A) && !Gdx.input.isKeyPressed(Input.Keys.D) && Player.PlayerY <= Variables.SurfaceY) {
@@ -94,8 +94,8 @@ public class Controlls {
 
         if (Gdx.input.isTouched()){
             System.out.println("Screen touched");
-            jj+=Gdx.input.getX()* delta;
-            Variables.camera.position.set(jj, Variables.camera.viewportHeight / 2, 0);
+//            jj=Gdx.input.getX()* delta;
+            Variables.camera.position.set(Gdx.input.getX()* delta, Variables.camera.viewportHeight / 2, 0);
 //            Variables.camera.translate(Gdx.input.getX()* delta,0f);
         }
 

@@ -5,12 +5,12 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
 
 
 public class Player {
 //    Primitive Variables
     static boolean PlayerDirectionRight;
-    static boolean PlayerDirectionLeft;
     static boolean PlayerIsIdle;
     static int index = 0;
     static float velocity=-200;
@@ -35,7 +35,7 @@ public class Player {
     public static float PlayerY;
     static float PlayerWidth;
     static float PlayerHeight;
-    static Texture textureenemey;
+//    static Texture textureenemey;
     static Texture TextureLeft,TextureRight;
     static Texture Texture2Left,Texture2Right;
     static Texture Texture3Left,Texture3Right;
@@ -46,9 +46,10 @@ public class Player {
     static TextureRegion[] playerJumpTextureRegions;
 
     static Animation<TextureRegion> playerAnimation;
+    static Animation<TextureRegion> playerILeftAnimation;
     static Animation<TextureRegion> playerRunningAnimation;
     static Animation<TextureRegion> LeftplayerRunningAnimation;
-        static Animation<TextureRegion> playerJumpAnimation;
+    static Animation<TextureRegion> playerJumpAnimation;
     TextureRegion[][] temp;
 
 
@@ -70,38 +71,48 @@ public class Player {
         isYCollision=false;
         canPLayerMoveLeft=true;
         canPLayerMoveRight=true;
-        PlayerWidth=34;PlayerHeight=38;
+        PlayerWidth=100;PlayerHeight=100;
         Player_State = 2;
+        PlayerDirectionRight=true;
         playerDead=Gdx.audio.newSound(Gdx.files.internal("playerSound/ouchmp3-14591.mp3"));
 //        ouchmp3-14591.mp3
 //        characterouch2-163912.mp3
 //        male_hurt7-48124.mp3
 //        punch sound ::>> punch-2-123106.mp3
-        TextureLeft = new Texture("idleshoot.png");
-        TextureRight = new Texture("R_idleshoot.png");
+        TextureLeft = new Texture("characterSprites/playerLeftIdle.png");
+        TextureRight = new Texture("characterSprites/Gangsters_1/Idle.png");
 
-        Texture2Left= new Texture("L_runningshooter.png");
-        Texture2Right= new Texture("runningshooter.png");
+        Texture2Left= new Texture("characterSprites/Gangsters_1/Run.png");
+        Texture2Right= new Texture("characterSprites/Gangsters_1/Run.png");
 //        Texture3Left= new Texture("jumpshooter.png");
-        Texture3Right= new Texture("jumpshooter.png");
-        textureenemey = new Texture("Off.png");
+        Texture3Right= new Texture("characterSprites/Gangsters_1/Jump.png");
+//        textureenemey = new Texture("Off.png");
 
 
 
-//      Idle
-        temp = TextureRegion.split(TextureLeft,31,35);
-        playerTextureRegions= new TextureRegion[5];
-        for (int j = 0; j <5; j++) {
+//      Idle Left
+
+        temp = TextureRegion.split(TextureLeft,128,80);
+        playerTextureRegions= new TextureRegion[6];
+        for (int j = 0; j <6; j++) {
             playerTextureRegions[index++]=temp[0][j];
         }
-        playerAnimation = new Animation<>(.1f, playerTextureRegions);
+        playerILeftAnimation = new Animation<>(.08f, playerTextureRegions);
+        index=0;
+//      Idle Right
+        temp = TextureRegion.split(TextureRight,128,128);
+        playerTextureRegions= new TextureRegion[6];
+        for (int j = 0; j <6; j++) {
+            playerTextureRegions[index++]=temp[0][j];
+        }
+        playerAnimation = new Animation<>(.08f, playerTextureRegions);
         index=0;
 
 //        Running Animation Right
 
-        temp = TextureRegion.split(Texture2Right,34,36);
-        playerRunningTextureRegions= new TextureRegion[12];
-        for (int j = 0; j <12; j++) {
+        temp = TextureRegion.split(Texture2Right,128,128);
+        playerRunningTextureRegions= new TextureRegion[10];
+        for (int j = 0; j <10; j++) {
             playerRunningTextureRegions[index++]=temp[0][j];
         }
 
@@ -110,9 +121,9 @@ public class Player {
 
 //        Running Animation Left
 
-        temp = TextureRegion.split(Texture2Left,34,36);
-        LeftplayerRunningTextureRegions= new TextureRegion[11];
-        for (int j = 0; j <11; j++) {
+        temp = TextureRegion.split(Texture2Left,128,128);
+        LeftplayerRunningTextureRegions= new TextureRegion[10];
+        for (int j = 0; j <10; j++) {
             LeftplayerRunningTextureRegions[index++]=temp[0][j];
         }
 
@@ -121,9 +132,9 @@ public class Player {
 
 
 //        JUMP_GUY
-        temp = TextureRegion.split(Texture3Right,33,37);
-        playerJumpTextureRegions= new TextureRegion[4];
-        for (int j = 0; j <4; j++) {
+        temp = TextureRegion.split(Texture3Right,128,128);
+        playerJumpTextureRegions= new TextureRegion[10];
+        for (int j = 0; j <10; j++) {
             playerJumpTextureRegions[index++]=temp[0][j];
         }
 
@@ -149,7 +160,9 @@ public class Player {
                  Variables.batch.draw(Player.LeftplayerRunningAnimation.getKeyFrame(Variables.stateTime,true), Player.PlayerX, Player.PlayerY,PlayerWidth,PlayerHeight);
                  break;
             default:
-                Variables.batch.draw(Player.playerAnimation.getKeyFrame(Variables.stateTime,true), Player.PlayerX, Player.PlayerY,PlayerWidth,PlayerHeight);
+                if (Player.PlayerDirectionRight){
+                Variables.batch.draw(Player.playerAnimation.getKeyFrame(Variables.stateTime,true), Player.PlayerX, Player.PlayerY,PlayerWidth,PlayerHeight);}
+                else {Variables.batch.draw(Player.playerILeftAnimation.getKeyFrame(Variables.stateTime,true), Player.PlayerX, Player.PlayerY,PlayerWidth,PlayerHeight);}
                  break;
 
         }

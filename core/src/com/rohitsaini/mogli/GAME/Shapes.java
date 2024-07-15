@@ -3,7 +3,6 @@ package com.rohitsaini.mogli.GAME;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-
 import static com.rohitsaini.mogli.GAME.myKeyWords.*;
 
 import java.util.ArrayList;
@@ -104,6 +103,17 @@ public class Shapes {
                     return true;
                 }
             }
+
+        return false;
+    }
+    public static boolean check_collision_surface(Rectangle R,Rectangle X) {
+
+        if(R.overlaps(X)) {
+//            if(Player.PlayerY>(R.getY()+15)){
+//                    sout("Y Surface Collision");
+                return true;
+//            }
+        }
 
         return false;
     }
