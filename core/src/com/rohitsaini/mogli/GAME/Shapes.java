@@ -31,12 +31,12 @@ public class Shapes {
     public void shaperender(){
     	
 
-    	player.set(Player.PlayerX, Player.PlayerY, 15, 40);
+    	player.set(Player.PlayerX+15, Player.PlayerY, 18, 40);
 //    	sout("--"+player.getX());
     	
         shapeRenderer.setProjectionMatrix(Variables.camera.combined);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        shapeRenderer.rect(Player.PlayerX,Player.PlayerY,15,40); // Player is HERE;
+        shapeRenderer.rect(Player.PlayerX+15,Player.PlayerY,18,40); // Player is HERE;
         shapeRenderer.rect(300,60,15,20); // BoxJammer1
         // ( X,Y,WIDTH, HEIGHT ) POSITION 300 TO 300+15 LEFT TO RIGHT AND BOTTOM TO TOP
 

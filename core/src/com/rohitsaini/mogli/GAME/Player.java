@@ -71,7 +71,7 @@ public class Player {
         isYCollision=false;
         canPLayerMoveLeft=true;
         canPLayerMoveRight=true;
-        PlayerWidth=100;PlayerHeight=100;
+        PlayerWidth=50;PlayerHeight=60;
         Player_State = 2;
         PlayerDirectionRight=true;
         playerDead=Gdx.audio.newSound(Gdx.files.internal("playerSound/ouchmp3-14591.mp3"));
@@ -79,10 +79,10 @@ public class Player {
 //        characterouch2-163912.mp3
 //        male_hurt7-48124.mp3
 //        punch sound ::>> punch-2-123106.mp3
-        TextureLeft = new Texture("characterSprites/playerLeftIdle.png");
-        TextureRight = new Texture("characterSprites/Gangsters_1/Idle.png");
+        TextureLeft = new Texture("characterSprites/Gangsters_1/IdleL.png");
+        TextureRight = new Texture("characterSprites/Gangsters_1/IdleR.png");
 
-        Texture2Left= new Texture("characterSprites/Gangsters_1/Run.png");
+        Texture2Left= new Texture("characterSprites/Gangsters_1/RunL.png");
         Texture2Right= new Texture("characterSprites/Gangsters_1/Run.png");
 //        Texture3Left= new Texture("jumpshooter.png");
         Texture3Right= new Texture("characterSprites/Gangsters_1/Jump.png");
@@ -92,7 +92,7 @@ public class Player {
 
 //      Idle Left
 
-        temp = TextureRegion.split(TextureLeft,128,80);
+        temp = TextureRegion.split(TextureLeft,128,128);
         playerTextureRegions= new TextureRegion[6];
         for (int j = 0; j <6; j++) {
             playerTextureRegions[index++]=temp[0][j];
@@ -138,7 +138,7 @@ public class Player {
             playerJumpTextureRegions[index++]=temp[0][j];
         }
 
-        playerJumpAnimation = new Animation<>(.1f, playerJumpTextureRegions);
+        playerJumpAnimation = new Animation<>(.3f, playerJumpTextureRegions);
 
     }
     static void renderPlayer(){

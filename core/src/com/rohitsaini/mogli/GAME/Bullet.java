@@ -41,7 +41,7 @@ public class Bullet {
             bolletWall=(-bolletWall);
         }
         
-        this.BulletY=Player.PlayerY+Player.PlayerHeight-15;
+        this.BulletY=(Player.PlayerY+Player.PlayerHeight/4)-1.5f;
         bulletRect = new Rectangle(bulletX,this.BulletY,10,10);
 
         System.out.println("BulletX:"+X);

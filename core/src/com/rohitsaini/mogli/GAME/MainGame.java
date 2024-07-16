@@ -65,7 +65,7 @@ public class MainGame implements Screen {
 
     @Override
     public void show() {
-        Player.PLAYER_HEALTH=100;
+        Player.PLAYER_HEALTH=20;
         Variables.SPEED=50;
         Variables.deltaTime=Gdx.graphics.getDeltaTime();
         Player.PlayerIsIdle=true;
