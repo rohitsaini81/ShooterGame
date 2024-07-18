@@ -106,12 +106,15 @@ public class MainGame implements Screen {
 
 
 //        System.out.println("camera.view.getScaleX()"+Variables.camera.view.getScaleX()); it return 1.0 always
+
         states.set(0,"X:" +(int)Player.PlayerX+"Y:"+(int)Player.PlayerY);
         states.set(1,"X:"+Gdx.input.getX()+" ,Health:"+Player.PLAYER_HEALTH);
 
         for (int i = 0; i < states.size(); i++) {
 //            System.out.println(states.get(0));
-            Variables.Font.draw(Variables.batch, states.get(i),Player.PlayerX,my_Y+(i*100));
+            if (Player.getX()>100){
+                Variables.Font.draw(Variables.batch, states.get(i),(Player.PlayerX-100),my_Y+(i*50));
+            }
 
         }
 

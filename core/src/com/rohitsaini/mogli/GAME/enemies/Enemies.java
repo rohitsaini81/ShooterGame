@@ -86,7 +86,7 @@ public class Enemies{
         }
         Shapes.check_collision_surface(EnemyJammer1);
         EnemyJammer1.set(enmey_X,enmey_Y,25,30);
-        System.out.println("enemyX"+enmey_X);
+//        System.out.println("enemyX"+enmey_X);
         Variables.batch.draw(this.EnemiesAnimation.getKeyFrame(Variables.stateTime,true),enmey_X,enmey_Y,25,30);
 
     }
