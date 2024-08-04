@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
-import com.rohitsaini.mogli.GAME.MainGame;
 import com.rohitsaini.mogli.GAME.Player;
 import com.rohitsaini.mogli.GAME.Shapes;
 import com.rohitsaini.mogli.GAME.Variables;
@@ -26,12 +25,14 @@ public class Enemies{
     Sprite Snake;
     public AI ai;
     Texture snake;
+    Texture airStands;
     public  TextureRegion[] snakeRegion;
     TextureRegion[][] tempsnake;
     Animation<TextureRegion> EnemiesAnimation;
     public Rectangle EnemyJammer1;
     public boolean isDead;
     public int enemyHealth;
+    public Hitmans Henenmy;
     public float getX(){
         return enmey_X;
     }
@@ -50,6 +51,7 @@ public class Enemies{
         isDead=false;
 
         enmey_Y=70;
+//        airStands= new Texture("");
         this.sound= Gdx.audio.newSound(Gdx.files.internal("playerSound/Ibatman.mp3"));
         this.collision_Damage=Gdx.audio.newSound(Gdx.files.internal("playerSound/jump-climb-or-damage-sound-f-95942.mp3"));
 //        this.snake = new Texture("batman.png");
@@ -67,6 +69,7 @@ public class Enemies{
         this.EnemiesAnimation=new Animation<>(0.2f, this.snakeRegion);
         this.sound.play();
 
+        Henenmy= new Hitmans();
     }
 
     public void RenderEnemy(){
@@ -76,7 +79,11 @@ public class Enemies{
         if(enemyHealth>0 && Shapes.player.overlaps(EnemyJammer1)) {
             if(Player.PlayerY<(EnemyJammer1.getY()+15)){
                 Player.PLAYER_HEALTH--;
+
                 this.collision_Damage.play();
+                Player.playerDead.play();
+
+
                 Player.setX(Player.getX()+i);
                 Shapes.player.set(Player.getX(), Player.PlayerY, 15, 40);
                 i+=Variables.SPEED*Variables.deltaTime;
@@ -88,6 +95,11 @@ public class Enemies{
         EnemyJammer1.set(enmey_X,enmey_Y,25,30);
 //        System.out.println("enemyX"+enmey_X);
         Variables.batch.draw(this.EnemiesAnimation.getKeyFrame(Variables.stateTime,true),enmey_X,enmey_Y,25,30);
+
+//          sdaf
+        Henenmy.render();
+
+
 
     }
 

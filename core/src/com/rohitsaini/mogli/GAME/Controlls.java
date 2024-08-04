@@ -2,6 +2,7 @@ package com.rohitsaini.mogli.GAME;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.rohitsaini.mogli.GAME.Screens.MainGame;
 
 import static com.rohitsaini.mogli.GAME.myKeyWords.my_X;
 import static com.rohitsaini.mogli.GAME.myKeyWords.sout;
@@ -10,13 +11,16 @@ public class Controlls {
     public static boolean JUMP= false;
     public static boolean Landed= true;
     static int collx=0;
-    static float dummyValue1;
-    static float dummyValue2;
+    static float XValue;
+    static float X2Value;
+    static float bottomValue;
     public static void render(float delta){
         if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-//            Variables.camera.translate(0f,0f);
-            Variables.SurfaceY++;
-//                System.out.println(Variables.SurfaceY);
+//                System.out.println("surface y: "+Variables.SurfaceY);
+            MainGame.jumptime=0;
+
+
+
             Player.PLAYER_HEALTH = 20;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.Q) || Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
@@ -29,20 +33,28 @@ public class Controlls {
             if(Shapes.check_collision())
             {
                 collx=1;
-                dummyValue1=Shapes.all_shapes.get(Shapes.collision_id).getX()-30f;
-                sout("Logs:"+(dummyValue1));
-                if (Player.getX()<(dummyValue1)){
+                XValue=Shapes.all_shapes.get(Shapes.collision_id).getX()-30f;
+//                sout("Logs:"+(dummyValue1));
+                if (Player.getX()<(XValue)){
                     Player.PlayerX=Player.Player_prevX-0.01f;
+
                 }
 
 
-                dummyValue2=Shapes.all_shapes.get(Shapes.collision_id).getX()-2.5f;
-                sout("Logs:"+(dummyValue2));
-                if (Player.getX()>(dummyValue2)){
-                    sout("Logs: testing");
+                X2Value=Shapes.all_shapes.get(Shapes.collision_id).getX()-2.5f;
+//                sout("Logs:"+(dummyValue2));
+                if (Player.getX()>(X2Value)){
+//                    sout("Logs: testing");
                     Player.PlayerX=Player.Player_prevX+0.3f;
                 }
 
+
+                bottomValue =Shapes.all_shapes.get(Shapes.collision_id).getY();
+                if (Player.getY()<bottomValue){
+                    Landed = false;
+                    MainGame.jumptime=0;
+                    Player.setY(--Player.PlayerY);
+                }
             }
             if (Player.getX()>121&&Player.getX()<2020) {
                 Variables.camera.position.set(Player.getX(), Variables.camera.viewportHeight / 2, 0);
@@ -60,8 +72,10 @@ public class Controlls {
                 Player.PlayerDirectionRight = true;
                 Player.PlayerX += Variables.SPEED * delta;
                 if(Shapes.check_collision()) {
+
+
                     float dummyValue=Shapes.all_shapes.get(Shapes.collision_id).getX()-30f;
-                    sout("Logs:"+(dummyValue));
+//                    sout("Logs:"+(dummyValue));
                     if (Player.getX()<(dummyValue)){
                     Player.PlayerX=Player.Player_prevX-0.01f;
                 }
@@ -76,11 +90,14 @@ public class Controlls {
                 Player.PlayerDirectionRight = false;
                 Player.PlayerX -= Variables.SPEED * delta;
                 if(Shapes.check_collision()) {
+
+
+
                     float dummyValue=Shapes.all_shapes.get(Shapes.collision_id).getX()-2.5f;
-                    sout("Logs:"+(dummyValue));
+//                    sout("Logs:"+(dummyValue));
                     if (Player.getX()>(dummyValue)){
-                        sout("Logs: testing");
-                        Player.PlayerX=Player.Player_prevX+0.3f;
+//                        sout("Logs: testing");
+                        Player.PlayerX=Player.Player_prevX+0.1f;
                     }
                 }
 
@@ -103,6 +120,7 @@ public class Controlls {
                 Player.Player_prevY = Player.PlayerY;
                 Landed = false;
                 JUMP = true;
+                MainGame.jumptime=40;
             }
 //        <----------for Extra Operation : W Key ------->
 
@@ -112,7 +130,7 @@ public class Controlls {
 
 //        Bullet Fired
             if (Gdx.input.isKeyJustPressed(Input.Keys.F)) {
-                Player.firingtime=20;
+                Player.firingtime=3;
                 Player.Player_State=3;
                 MainGame.bullets.add(new Bullet(Player.PlayerX + Player.PlayerWidth));
 //                System.out.println("Bullet added");

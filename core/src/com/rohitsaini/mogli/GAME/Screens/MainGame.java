@@ -1,4 +1,4 @@
-package com.rohitsaini.mogli.GAME;
+package com.rohitsaini.mogli.GAME.Screens;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -9,24 +9,34 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.rohitsaini.mogli.GAME.Bullet;
+import com.rohitsaini.mogli.GAME.Controlls;
+import com.rohitsaini.mogli.GAME.Levels.Level1;
+import com.rohitsaini.mogli.GAME.Player;
+import com.rohitsaini.mogli.GAME.Shapes;
+import com.rohitsaini.mogli.GAME.SurfaceObjects;
+import com.rohitsaini.mogli.GAME.Variables;
 import com.rohitsaini.mogli.GAME.enemies.Enemies;
 
 
 import java.util.ArrayList;
 
 //import static com.rohitsaini.mogli.GAME.Player.textureenemey;
+import static com.rohitsaini.mogli.GAME.Shapes.airStands;
+import static com.rohitsaini.mogli.GAME.Shapes.all_shapes;
 import static com.rohitsaini.mogli.GAME.myKeyWords.*;
 
 
 public class MainGame implements Screen {
     Game game;
+    public static Level1 level1;
     static float W0 = 0;
     static float W2 = Gdx.graphics.getWidth();
     static float H = Gdx.graphics.getHeight();
     static float S=W2/2;
     static float loopValue=0;
     static  int bg_times=5;
-    static ArrayList<Bullet> bullets;
+    public static ArrayList<Bullet> bullets;
     static ShapeRenderer shapeRenderer;
     static Shapes shapes;
 
@@ -38,6 +48,7 @@ public class MainGame implements Screen {
 
     public MainGame(Game game) {
         this.game = game;
+        level1= new Level1();
         shapeRenderer= new ShapeRenderer();
 
         Variables.camera = new OrthographicCamera(W2/2,H/2);
@@ -57,6 +68,18 @@ public class MainGame implements Screen {
         Variables.backgroundT = new Texture("Background.png");
         Variables.sprite=new Sprite(Variables.backgroundT);
         Variables.Font = new BitmapFont();
+
+
+
+
+        all_shapes.add(SurfaceObjects.BoxJammer1);
+        all_shapes.add(SurfaceObjects.BoxJammer2);
+        all_shapes.add(airStands);
+        all_shapes.add(Shapes.surfaceRect);
+        all_shapes.add(level1.airStands1);
+        all_shapes.add(level1.airStands2);
+
+
 
 
 
@@ -84,8 +107,13 @@ public class MainGame implements Screen {
     }
 //  <----------- Render Method -------------->
 
+    public static float jumptime=0;
     @Override
     public void render(float delta) {
+        if (jumptime>=0){
+            jumptime-=Variables.SPEED*delta;
+        }
+//        System.out.println(Math.abs(jumptime));
         Variables.deltaTime=delta;
         Player.Player_prevX = Player.PlayerX;
         Controlls.render(delta);
@@ -144,7 +172,7 @@ public class MainGame implements Screen {
             bullet.update();
             if (enemy.enemyHealth>0&&bullet.bulletRect.overlaps(enemy.EnemyJammer1)){
                 bullet.bolletWall = enemy.getX();
-                System.out.println("Enemy got injured");
+//                System.out.println("Enemy got injured");
                 enemy.enemyHealth-=2;
             }
             if (bullet.remove){
@@ -163,34 +191,35 @@ public class MainGame implements Screen {
             Player.Player_prevY = Player.PlayerY;
             Player.PlayerY+=Variables.SPEED*delta+0.5f;
         }
-        if (Player.PlayerY>Variables.SurfaceY+80){
+        if (jumptime<=0){
             Player.Player_prevY = Player.PlayerY;
             Controlls.JUMP = false;
         }
 
-        if (!Controlls.JUMP && Player.PlayerY >=Variables.SurfaceY){
+        if (!Controlls.JUMP){
             Player.Player_prevY = Player.PlayerY;
             if(Shapes.check_collision_surface()) {
-            	if(Player.Player_Prev_State==1) {
-            		Player.Player_State=0;
+                Player.PlayerY=Player.Player_prevY;
+            	if(Player.PlayerDirectionRight) {
+            		Player.Player_State=2;
             	}else {
-            		Player.Player_State=11;
+            		Player.Player_State=-2;
             	}
+                Variables.SurfaceY=(Player.PlayerY+50);
             	Controlls.Landed = true;
-            }else {
+            }else if (Player.PlayerY>=60){
+
             Player.PlayerY-= Variables.SPEED*delta;// -100+surface
             }
         }
-        if (Player.PlayerY>=Variables.SurfaceY-10&&Player.PlayerY<=Variables.SurfaceY){
+        if (Player.PlayerY>=Variables.SurfaceY-5&&Player.PlayerY<=Variables.SurfaceY){
             Controlls.Landed = true;
         }
-//        System.out.println();
         
        
         Variables.batch.end();
         shapes.shaperender();
-        System. out. print("\033[H\033[2J");
-        System. out. flush();
+        level1.render();
 
     }
 
@@ -217,7 +246,7 @@ public class MainGame implements Screen {
     @Override
     public void dispose() {
         Variables.batch.dispose();
-        Variables.backgroundT.dispose();
+//        Variables.backgroundT.dispose();
 //        Variables.Font.dispose();
         enemy.sound.dispose();
         Shapes.shapeRenderer.dispose();

@@ -1,3 +1,4 @@
-spawn enemies with collsition detection and health damage on interaction
-2 make enemies to kinematic so player position will change with enemy interaction
-solution: separate enemies collision system it's class !
+[*] spawn enemies with collsition detection and health damage on interaction
+[*] make enemies to kinematic so player position will change with enemy interaction
+[*] use rectangle for surface collision instead depending on surface variable it may be change hole jump system
+[-] create Level first of gdx width [_____________________] 

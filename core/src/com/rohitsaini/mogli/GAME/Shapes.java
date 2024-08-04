@@ -3,28 +3,33 @@ package com.rohitsaini.mogli.GAME;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.rohitsaini.mogli.GAME.Screens.MainGame;
+import com.rohitsaini.mogli.GAME.enemies.Enemies;
+
 import static com.rohitsaini.mogli.GAME.myKeyWords.*;
 
 import java.util.ArrayList;
 
 public class Shapes {
-    static ShapeRenderer shapeRenderer;
-    static Rectangle BoxJammer1;
+    public static ShapeRenderer shapeRenderer;
      public static Rectangle player;
-    static ArrayList<Rectangle>all_shapes;
+     public static Rectangle airStands;
+    public static ArrayList<Rectangle>all_shapes;
     public static boolean collision_x_on;
     public static int collision_id;
-    Shapes (){
+    public  static Rectangle surfaceRect;
+    public Shapes(){
         collision_x_on=false;
         shapeRenderer= new ShapeRenderer();
         all_shapes = new ArrayList<>();
-        BoxJammer1 = new Rectangle(300,60,15,20);
+        surfaceRect= new Rectangle(0,60,2000,1);
         player = new Rectangle(0,0,0,0);
-        
+        airStands = new Rectangle(0,120,20,5);
+//        all_shapes.add(airStands);
+
         
 //        shapes init
-    	BoxJammer1.set(300,60,15,20);
-    	
+
         shapeRenderer.setColor(Color.RED);
 
     }
@@ -35,38 +40,52 @@ public class Shapes {
     	
         shapeRenderer.setProjectionMatrix(Variables.camera.combined);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-                player.set((Player.PlayerX+15), Player.PlayerY, 18, 40);
+        player.set((Player.PlayerX+15), Player.PlayerY, 18, 40);
         shapeRenderer.rect((Player.PlayerX+15),Player.PlayerY,18,40); // Player is HERE;
-        shapeRenderer.rect(300,60,15,20); // BoxJammer1
+        shapeRenderer.rect(SurfaceObjects.BoxJammer1.getX(), SurfaceObjects.BoxJammer1.getY(), SurfaceObjects.BoxJammer1.getWidth(), SurfaceObjects.BoxJammer1.getHeight()); // BoxJammer1
+        shapeRenderer.rect(SurfaceObjects.BoxJammer2.getX(), SurfaceObjects.BoxJammer2.getY(), SurfaceObjects.BoxJammer2.getWidth(), SurfaceObjects.BoxJammer2.getHeight()); // BoxJammer2
+        shapeRenderer.line(surfaceRect.getX(),surfaceRect.getY(),surfaceRect.getWidth(),surfaceRect.getY());
         // ( X,Y,WIDTH, HEIGHT ) POSITION 300 TO 300+15 LEFT TO RIGHT AND BOTTOM TO TOP
+        shapeRenderer.end();
 
-        shapeRenderer.line(Collision.objX,60f,Collision.objX2,80f);
-        shapeRenderer.line(Collision.objX2,60f,Collision.objX,200f);
+//        airStands
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.rect(airStands.getX(), airStands.getY(),airStands.width,airStands.height);
+//        shapeRenderer.line(SurfaceObjects.BoxJammer1.getX(),60f,100,80f);
+        shapeRenderer.line(player.getX(),player.getY(),player.getX(),Math.abs(MainGame.jumptime));
         shapeRenderer.end();
         this.myshapes();
+        this.level1draw();
         
         
 //        here we update jammers stability
 //        static jammers could be on constructor because they are not going to destroy like enemy
-        all_shapes.add(BoxJammer1);
-        all_shapes.add(SurfaceObjects.BoxJammer2);
-//        all_shapes.add(BoxJammer3);
+
+//        System.out.println(all_shapes.size());
         
     }
 
    private void myshapes () {
 	   shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-       shapeRenderer.line(0f,100f,Player.PlayerX,200f);
+       shapeRenderer.line(0f,60,Player.PlayerX,200f);
        shapeRenderer.end();
-	   
-	   
+   }
+   private void level1draw(){
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        shapeRenderer.rect(MainGame.level1.airStands1.getX(),MainGame.level1.airStands1.getY(),MainGame.level1.airStands1.getWidth(),MainGame.level1.airStands1.getHeight());
+        shapeRenderer.rect(MainGame.level1.airStands2.getX(),MainGame.level1.airStands2.getY(),MainGame.level1.airStands2.getWidth(),MainGame.level1.airStands2.getHeight());
+
+
+//       shapeRenderer.setColor(Color.BLACK);
+       shapeRenderer.rect(MainGame.enemy.Henenmy.enemyrecta.getX(),MainGame.enemy.Henenmy.enemyrecta.getY(),MainGame.enemy.Henenmy.enemyrecta.getWidth(),MainGame.enemy.Henenmy.enemyrecta.getHeight());
+        shapeRenderer.end();
    }
    
-    
+//    left and right collision
     public static boolean check_collision() {
     	for (int i=0;i<all_shapes.size();i++) {
     		if(player.overlaps(all_shapes.get(i))) {		
-        		if(Player.PlayerY<(all_shapes.get(i).getY()+15)){
+        		if(Player.PlayerY<(all_shapes.get(i).getY()+all_shapes.get(i).getHeight()-2)){
                     collision_id=i;
                     collision_x_on=true;
         			return true;
@@ -86,9 +105,8 @@ public class Shapes {
     }
     public static boolean check_collision_surface() {
     	for (int i=0;i<all_shapes.size();i++) {
-    	if(player.overlaps(all_shapes.get(i))) {		
-    		if(Player.PlayerY>(all_shapes.get(i).getY()+15)){
-//    			sout("Y Surface Collision");
+    	if(player.overlaps(all_shapes.get(i)) || player.overlaps(surfaceRect)) {
+    		if(Player.PlayerY<(all_shapes.get(i).getY()+all_shapes.get(i).getHeight()+10)){
     			return true;
     			}
     	}
@@ -98,8 +116,7 @@ public class Shapes {
     public static boolean check_collision_surface(Rectangle R) {
 
             if(player.overlaps(R)) {
-                if(Player.PlayerY>(R.getY()+15)){
-//                    sout("Y Surface Collision");
+                if(Player.PlayerY>(R.getY()+ player.getHeight()+1)){
                     return true;
                 }
             }
@@ -108,14 +125,10 @@ public class Shapes {
     }
     public static boolean check_collision_surface(Rectangle R,Rectangle X) {
 
-        if(R.overlaps(X)) {
-//            if(Player.PlayerY>(R.getY()+15)){
-//                    sout("Y Surface Collision");
-                return true;
-//            }
+        if (R.overlaps(X)) {
+            return true;
         }
-
         return false;
     }
-
-}
+    }
+//            

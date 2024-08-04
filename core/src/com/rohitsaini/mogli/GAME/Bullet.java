@@ -22,17 +22,41 @@ public class Bullet {
     public float bolletWall;
 
 
-    Bullet(float bulletX){
+
+    public Bullet(float bulletX){
         this.bolletWall=Player.getX()+Gdx.graphics.getWidth();
         bulletTexture = new Texture("02.png");
         bulletSound = Gdx.audio.newSound(Gdx.files.internal("playerSound/Raw-Shoot-Variation01.mp3"));
         bulletSound.play();
         bullet = new Sprite(bulletTexture);
+
+        if(Player.PlayerDirectionRight) {
+            this.X=bulletX;
+            this.X2=Gdx.graphics.getWidth();
+            this.playerState=true;}
+        else {
+            this.X=(bulletX-35);
+            this.X2=Gdx.graphics.getWidth();
+            this.playerState=false;
+            bolletWall=(-bolletWall);
+        }
+
+        this.BulletY=(Player.PlayerY+Player.PlayerHeight/4)-1.5f;
+        bulletRect = new Rectangle(bulletX,this.BulletY,10,10);
+
+//        System.out.println("BulletX:"+X);
+    }
+    public Bullet(float bulletX,float bulletY,boolean right){
+        this.bolletWall=Player.getX()+Gdx.graphics.getWidth();
+        bulletTexture = new Texture("02.png");
+        bulletSound = Gdx.audio.newSound(Gdx.files.internal("playerSound/Raw-Shoot-Variation01.mp3"));
+        bulletSound.play();
+        this.BulletY=bulletY;
+        bullet = new Sprite(bulletTexture);
         
-        if(Player.Player_State==1 || Player.Player_State==0) {
+        if(right) {
         	this.X=bulletX;
         	this.X2=Gdx.graphics.getWidth();
-//            bolletWall;
         	this.playerState=true;}
         else {
         	this.X=(bulletX-35);
@@ -41,10 +65,9 @@ public class Bullet {
             bolletWall=(-bolletWall);
         }
         
-        this.BulletY=(Player.PlayerY+Player.PlayerHeight/4)-1.5f;
         bulletRect = new Rectangle(bulletX,this.BulletY,10,10);
 
-        System.out.println("BulletX:"+X);
+//        System.out.println("BulletX:"+X);
     }
     public void update(){
         bulletRect.setX(this.X);
@@ -64,7 +87,7 @@ public class Bullet {
 
     }
     public void Bullet_fire (SpriteBatch batch){
-        System.out.println("Bullet fired AND X: "+this.X+" Y: "+this.BulletY);
+//        System.out.println("Bullet fired AND X: "+this.X+" Y: "+this.BulletY);
         batch.draw(this.bullet,this.X,this.BulletY,10,10);
         }
 }

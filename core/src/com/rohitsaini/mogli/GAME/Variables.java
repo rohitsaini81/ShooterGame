@@ -6,20 +6,20 @@ import com.badlogic.gdx.graphics.g2d.*;
 
 public class Variables {
 //    Big Objects Only
-    static OrthographicCamera camera;
+    public static OrthographicCamera camera;
     public static SpriteBatch batch;
-    static Sprite sprite;
-    static Texture backgroundT;
-    static BitmapFont Font;
+    public static Sprite sprite;
+    public static Texture backgroundT;
+    public static BitmapFont Font;
 
 //    Variables Only
     public static float stateTime=0;
     public static float SPEED;
     public static float deltaTime;
-    static float SurfaceX;
-    static float SurfaceX2;
-    static float SurfaceY;
-    static float angle;
-    static boolean isCollision;
+    public static float SurfaceX;
+    public static float SurfaceX2;
+    public static float SurfaceY;
+    public static float angle;
+    public static boolean isCollision;
 
 }

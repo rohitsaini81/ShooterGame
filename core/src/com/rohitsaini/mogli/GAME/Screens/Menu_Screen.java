@@ -1,6 +1,5 @@
-package com.rohitsaini.mogli.GAME;
+package com.rohitsaini.mogli.GAME.Screens;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
@@ -8,6 +7,8 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.rohitsaini.mogli.GAME.Player;
+import com.rohitsaini.mogli.GAME.Screens.MainGame;
 import com.rohitsaini.mogli.Mogali;
 
 

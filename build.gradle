@@ -1,6 +1,4 @@
 buildscript {
-    
-
     repositories {
         mavenLocal()
         mavenCentral()
@@ -9,8 +7,7 @@ buildscript {
         google()
     }
     dependencies {
-        
-
+        // Add any necessary buildscript dependencies here
     }
 }
 
@@ -18,6 +15,7 @@ allprojects {
     apply plugin: "eclipse"
 
     version = '1.0'
+
     ext {
         appName = "rohitsgame"
         gdxVersion = '1.12.0'
@@ -42,21 +40,23 @@ allprojects {
 project(":desktop") {
     apply plugin: "java-library"
 
-
     dependencies {
         implementation project(":core")
         api "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
         api "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
-        
+
     }
 }
 
 project(":core") {
     apply plugin: "java-library"
+    repositories{
+        maven { url "https://jitpack.io" }
 
+    }
 
     dependencies {
+        implementation "com.github.tommyettinger:textratypist:1.0.0"
         api "com.badlogicgames.gdx:gdx:$gdxVersion"
-        
     }
 }

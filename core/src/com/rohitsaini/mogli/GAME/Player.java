@@ -12,20 +12,20 @@ import com.badlogic.gdx.math.Rectangle;
 
 public class Player {
 //    Primitive Variables
-    static boolean PlayerDirectionRight;
-    static boolean PlayerIsIdle;
+    public static boolean PlayerDirectionRight;
+    public static boolean PlayerIsIdle;
     static int index = 0;
     static float velocity=-200;
-    static float Player_prevX;
-    static float Player_prevY;
-    static int Player_State;
+    public static float Player_prevX;
+    public static float Player_prevY;
+    public static int Player_State;
     static int Player_Prev_State;
     static boolean isXCollision;
     static boolean isYCollision;
     static float firingtime;
 
     public static float PLAYER_HEALTH;
-    static Sound playerDead;
+    public static Sound playerDead;
     static boolean canPLayerMoveLeft;
     static boolean canPLayerMoveRight;
 
@@ -34,7 +34,7 @@ public class Player {
 
 
 //     Non-Primitive Variables
-    static float PlayerX;
+    public static float PlayerX;
     public static float PlayerY;
     static float PlayerWidth;
     static float PlayerHeight;
@@ -49,6 +49,8 @@ public class Player {
     static TextureRegion[] LeftplayerRunningTextureRegions;
     static TextureRegion[] playerJumpTextureRegions;
     static TextureRegion[] playerFiringTextureRegions;
+    static TextureRegion[] playerFiringLeftTextureRegions;
+
 
     static Animation<TextureRegion> playerAnimation;
     static Animation<TextureRegion> playerILeftAnimation;
@@ -56,6 +58,7 @@ public class Player {
     static Animation<TextureRegion> LeftplayerRunningAnimation;
     static Animation<TextureRegion> playerJumpAnimation;
     static Animation<TextureRegion> playerFiringAnimation;
+    static Animation<TextureRegion> playerFiringLeftAnimation;
     TextureRegion[][] temp;
 
 
@@ -69,12 +72,15 @@ public class Player {
     public static float getX() {
         return PlayerX;
     }
+    public static float getY() {
+        return PlayerY;
+    }
     public static void setY(float playerY) {
-        PlayerX = playerY;
+        PlayerY = playerY;
     }
 
 
-    Player (){
+    public Player(){
         isYCollision=false;
         canPLayerMoveLeft=true;
         canPLayerMoveRight=true;
@@ -96,6 +102,7 @@ public class Player {
         Texture3Right= new Texture("characterSprites/Gangsters_1/Jump.png");
 
         Texture4Right= new Texture("characterSprites/Gangsters_1/Shot.png");
+        Texture4Left= new Texture("characterSprites/Gangsters_1/ShotL.png");
 
 
 
@@ -161,20 +168,32 @@ public class Player {
             playerFiringTextureRegions[index++]=temp[0][j];
         }
 
-        playerFiringAnimation = new Animation<>(.1f, playerFiringTextureRegions);
+        playerFiringAnimation = new Animation<>(.3f, playerFiringTextureRegions);
+        index=0;
+
+//left firing
+        temp = TextureRegion.split(Texture4Left,128,128);
+
+        playerFiringLeftTextureRegions= new TextureRegion[4];
+        for (int j = 0; j <4; j++) {
+            playerFiringLeftTextureRegions[index++]=temp[0][j];
+        }
+
+        playerFiringLeftAnimation = new Animation<>(.3f, playerFiringLeftTextureRegions);
         index=0;
 
 
 
     }
 
-    static void renderPlayer(){
+    public static void renderPlayer(){
         if (firingtime>0){
+            Player.setX(Player.Player_prevX);
             firingtime-= Variables.SPEED * Gdx.graphics.getDeltaTime();
             if (firingtime<0){firingtime=0;}
 
         }
-        sout(""+firingtime);
+//        sout(""+firingtime);
         if (!isXCollision){
             Player.canPLayerMoveLeft=true;
             Player.canPLayerMoveRight=true;
@@ -194,11 +213,13 @@ public class Player {
                 Variables.batch.draw(Player.LeftplayerRunningAnimation.getKeyFrame(Variables.stateTime,true), Player.PlayerX, Player.PlayerY,PlayerWidth,PlayerHeight);
                  break;
             case 3:
-                Variables.batch.draw(Player.playerFiringAnimation.getKeyFrame(Variables.stateTime,true), Player.PlayerX, Player.PlayerY,PlayerWidth,PlayerHeight);
+                if (Player.PlayerDirectionRight) {
+                    Variables.batch.draw(Player.playerFiringAnimation.getKeyFrame(Variables.stateTime, true), Player.PlayerX, Player.PlayerY, PlayerWidth, PlayerHeight);
+                }else {Variables.batch.draw(Player.playerFiringLeftAnimation.getKeyFrame(Variables.stateTime, true), Player.PlayerX, Player.PlayerY, PlayerWidth, PlayerHeight);}
                 break;
             default:
 
-                if (Player.Player_Prev_State==2 && Player.firingtime==0){
+                if (Player.PlayerDirectionRight && Player.firingtime==0){
                 Variables.batch.draw(Player.playerAnimation.getKeyFrame(Variables.stateTime,true), Player.PlayerX, Player.PlayerY,PlayerWidth,PlayerHeight);}
                 else if (Player.firingtime==0){Variables.batch.draw(Player.playerILeftAnimation.getKeyFrame(Variables.stateTime,true), Player.PlayerX, Player.PlayerY,PlayerWidth,PlayerHeight);}
                  break;

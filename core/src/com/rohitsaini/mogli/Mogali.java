@@ -4,8 +4,9 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.rohitsaini.mogli.GAME.MainGame;
-import com.rohitsaini.mogli.GAME.Menu_Screen;
+import com.rohitsaini.mogli.GAME.Screens.MainGame;
+import com.rohitsaini.mogli.GAME.Screens.Menu_Screen;
+import com.rohitsaini.mogli.GAME.Screens.headScreen;
 
 
 public class Mogali extends Game {
@@ -15,6 +16,7 @@ public class Mogali extends Game {
 	public static int GAME_WORLD_HEIGHT=700;
 	public static BitmapFont font;
 	Menu_Screen Menu;
+	headScreen screen2;
 	MainGame Game;
 	public static float stateTime;
 
@@ -22,10 +24,12 @@ public class Mogali extends Game {
 	
 	@Override
 	public void create () {
+		img= new Texture("sand.png");
 		batch = new SpriteBatch();
 //		Menu= new Menu_Screen(this);
 //		this.setScreen(Menu);
 		Game= new MainGame(this);
+//		screen2 = new headScreen(this);
 		this.setScreen(Game);
 	}
 

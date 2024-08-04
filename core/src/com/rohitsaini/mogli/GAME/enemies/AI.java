@@ -1,7 +1,6 @@
 package com.rohitsaini.mogli.GAME.enemies;
 
-import com.badlogic.gdx.Gdx;
-import com.rohitsaini.mogli.GAME.MainGame;
+import com.rohitsaini.mogli.GAME.Screens.MainGame;
 import com.rohitsaini.mogli.GAME.Variables;
 
 public class AI {
