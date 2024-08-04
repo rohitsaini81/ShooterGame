@@ -1,13 +1,12 @@
 package com.rohitsaini.mogli.GAME;
 
-import static com.rohitsaini.mogli.GAME.myKeyWords.sout;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
+import com.rohitsaini.mogli.GAME.DrawShapes.Shapes;
 
 
 public class Player {
@@ -25,19 +24,26 @@ public class Player {
     static float firingtime;
 
     public static float PLAYER_HEALTH;
-    public static Sound playerDead;
     static boolean canPLayerMoveLeft;
     static boolean canPLayerMoveRight;
+
+    public static float PlayerX;
+    public static float PlayerY;
+    public static float eyex1;
+    public static float eyex2;
+    static float PlayerWidth;
+    static float PlayerHeight;
 
 
 
 
 
 //     Non-Primitive Variables
-    public static float PlayerX;
-    public static float PlayerY;
-    static float PlayerWidth;
-    static float PlayerHeight;
+
+    public static Sound playerDead;
+
+    public static Rectangle eyerect;
+
 //    static Texture textureenemey;
     static Texture TextureLeft,TextureRight;
     static Texture Texture2Left,Texture2Right;
@@ -67,16 +73,16 @@ public class Player {
 
 
     public static void setX(float playerX) {
-        PlayerX = playerX;
+        PlayerX=playerX;
     }
     public static float getX() {
         return PlayerX;
     }
     public static float getY() {
-        return PlayerY;
+        return Shapes.player.getY();
     }
     public static void setY(float playerY) {
-        PlayerY = playerY;
+        PlayerY=playerY;
     }
 
 
@@ -187,6 +193,8 @@ public class Player {
     }
 
     public static void renderPlayer(){
+        eyex1 = Math.abs(Player.PlayerX-120);
+        eyex2 = Math.abs(Player.PlayerX+120);
         if (firingtime>0){
             Player.setX(Player.Player_prevX);
             firingtime-= Variables.SPEED * Gdx.graphics.getDeltaTime();
@@ -225,5 +233,14 @@ public class Player {
                  break;
 
         }
+
+
+
+
+
+
+
+
+
     }
 }

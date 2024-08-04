@@ -6,7 +6,7 @@ PLAYER STATE 3 = FIRING RIGHT
 PLAYER STATE 33 = FIRING LEFT
 PLAYER WIDTH = 15
 PLAYER HEIGHT = 40
-
+FULL GAME WIDTH = -10 TO 2100
 
 
 for a new object with collisition detection use two classes 1 SurfaceObjects 2 Shapes

@@ -13,7 +13,7 @@ import com.rohitsaini.mogli.GAME.Bullet;
 import com.rohitsaini.mogli.GAME.Controlls;
 import com.rohitsaini.mogli.GAME.Levels.Level1;
 import com.rohitsaini.mogli.GAME.Player;
-import com.rohitsaini.mogli.GAME.Shapes;
+import com.rohitsaini.mogli.GAME.DrawShapes.Shapes;
 import com.rohitsaini.mogli.GAME.SurfaceObjects;
 import com.rohitsaini.mogli.GAME.Variables;
 import com.rohitsaini.mogli.GAME.enemies.Enemies;
@@ -22,8 +22,8 @@ import com.rohitsaini.mogli.GAME.enemies.Enemies;
 import java.util.ArrayList;
 
 //import static com.rohitsaini.mogli.GAME.Player.textureenemey;
-import static com.rohitsaini.mogli.GAME.Shapes.airStands;
-import static com.rohitsaini.mogli.GAME.Shapes.all_shapes;
+import static com.rohitsaini.mogli.GAME.DrawShapes.Shapes.airStands;
+import static com.rohitsaini.mogli.GAME.DrawShapes.Shapes.all_shapes;
 import static com.rohitsaini.mogli.GAME.myKeyWords.*;
 
 
@@ -78,6 +78,7 @@ public class MainGame implements Screen {
         all_shapes.add(Shapes.surfaceRect);
         all_shapes.add(level1.airStands1);
         all_shapes.add(level1.airStands2);
+        all_shapes.add(level1.airStands3);
 
 
 
@@ -174,6 +175,10 @@ public class MainGame implements Screen {
                 bullet.bolletWall = enemy.getX();
 //                System.out.println("Enemy got injured");
                 enemy.enemyHealth-=2;
+            }
+            if (enemy.Henenmy.health>0&&bullet.bulletRect.overlaps(enemy.Henenmy.enemyrecta)){
+                bullet.bolletWall=enemy.Henenmy.enemyrecta.getX();
+                enemy.Henenmy.health--;
             }
             if (bullet.remove){
                 bulletstoRemove.add(bullet);}

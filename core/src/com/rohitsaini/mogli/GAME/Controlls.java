@@ -2,10 +2,10 @@ package com.rohitsaini.mogli.GAME;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.rohitsaini.mogli.GAME.DrawShapes.Shapes;
 import com.rohitsaini.mogli.GAME.Screens.MainGame;
 
 import static com.rohitsaini.mogli.GAME.myKeyWords.my_X;
-import static com.rohitsaini.mogli.GAME.myKeyWords.sout;
 
 public class Controlls {
     public static boolean JUMP= false;
@@ -45,7 +45,7 @@ public class Controlls {
 //                sout("Logs:"+(dummyValue2));
                 if (Player.getX()>(X2Value)){
 //                    sout("Logs: testing");
-                    Player.PlayerX=Player.Player_prevX+0.3f;
+                    Player.PlayerX=Player.Player_prevX+0.1f;
                 }
 
 
@@ -65,7 +65,7 @@ public class Controlls {
 
 
 //        <----------D Key ------->
-            if (Gdx.input.isKeyPressed(Input.Keys.D) && Player.getX()<2100) {
+            if (Gdx.input.isKeyPressed(Input.Keys.D) && MainGame.level1.wallCollision()) {
                 my_X++;
                 Player.Player_State = 1;
                 Player.Player_Prev_State=Player.Player_State;
@@ -137,6 +137,9 @@ public class Controlls {
             }
         }
 
+        if (Gdx.input.isTouched()){
+            Variables.camera.position.set(Gdx.input.getX(), Variables.camera.viewportHeight / 2, 0);
+        }
 
 
 

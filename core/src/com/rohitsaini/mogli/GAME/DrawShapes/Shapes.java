@@ -1,12 +1,15 @@
-package com.rohitsaini.mogli.GAME;
+package com.rohitsaini.mogli.GAME.DrawShapes;
 
+import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.rohitsaini.mogli.GAME.Player;
 import com.rohitsaini.mogli.GAME.Screens.MainGame;
-import com.rohitsaini.mogli.GAME.enemies.Enemies;
-
-import static com.rohitsaini.mogli.GAME.myKeyWords.*;
+import com.rohitsaini.mogli.GAME.SurfaceObjects;
+import com.rohitsaini.mogli.GAME.Variables;
+import com.rohitsaini.mogli.Mogali;
 
 import java.util.ArrayList;
 
@@ -67,20 +70,27 @@ public class Shapes {
 
    private void myshapes () {
 	   shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-       shapeRenderer.line(0f,60,Player.PlayerX,200f);
+//       float x1 = Math.abs(Player.PlayerX-120);
+//       float x2 = Math.abs(Player.PlayerX+120);
+       shapeRenderer.line(Player.eyex1,Player.PlayerY+(Shapes.player.getHeight()/2),Player.eyex2,Player.PlayerY+(Shapes.player.getHeight()/2));
        shapeRenderer.end();
    }
    private void level1draw(){
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         shapeRenderer.rect(MainGame.level1.airStands1.getX(),MainGame.level1.airStands1.getY(),MainGame.level1.airStands1.getWidth(),MainGame.level1.airStands1.getHeight());
         shapeRenderer.rect(MainGame.level1.airStands2.getX(),MainGame.level1.airStands2.getY(),MainGame.level1.airStands2.getWidth(),MainGame.level1.airStands2.getHeight());
+        shapeRenderer.rect(MainGame.level1.airStands3.getX(),MainGame.level1.airStands3.getY(),MainGame.level1.airStands3.getWidth(),MainGame.level1.airStands3.getHeight());
 
-
-//       shapeRenderer.setColor(Color.BLACK);
+       shapeRenderer.setColor(Color.BLACK);
        shapeRenderer.rect(MainGame.enemy.Henenmy.enemyrecta.getX(),MainGame.enemy.Henenmy.enemyrecta.getY(),MainGame.enemy.Henenmy.enemyrecta.getWidth(),MainGame.enemy.Henenmy.enemyrecta.getHeight());
         shapeRenderer.end();
    }
-   
+
+
+
+
+
+
 //    left and right collision
     public static boolean check_collision() {
     	for (int i=0;i<all_shapes.size();i++) {

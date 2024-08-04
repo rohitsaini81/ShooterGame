@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.rohitsaini.mogli.GAME.Bullet;
 import com.rohitsaini.mogli.GAME.Player;
-import com.rohitsaini.mogli.GAME.Shapes;
+import com.rohitsaini.mogli.GAME.DrawShapes.Shapes;
 import com.rohitsaini.mogli.GAME.Variables;
 
 import java.util.ArrayList;
@@ -23,12 +23,14 @@ public class Hitmans {
     private float enmey_X;
     private float enmey_Y;
     private boolean rightface;
+    public int health;
     Hitmans (){
         rightface=true;
         enemyrecta=new Rectangle();
         index=0;
         enmey_X=Gdx.graphics.getWidth();
         enmey_Y=60;
+        health=20;
         bullets = new ArrayList<>();
         Texture T=new Texture("characterSprites/Robots.png");
         temp = TextureRegion.split(T,24,32);
@@ -39,7 +41,9 @@ public class Hitmans {
         enemyAnimation = new Animation<>(.08f, enemyTextureRegions);
     }
     public void render (){
-        Ai();
+        if (health>0){
+            Ai();
+        }else {health=0;}
         enemyrecta.set(Math.abs(enmey_X),enmey_Y,40,25);
         Variables.batch.draw(enemyAnimation.getKeyFrame(Variables.stateTime,true),Math.abs(enmey_X),enmey_Y,40, 40);
 
