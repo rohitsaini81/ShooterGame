@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.rohitsaini.mogli.GAME.DrawShapes.Shapes;
 import com.rohitsaini.mogli.GAME.Screens.MainGame;
+import com.rohitsaini.mogli.GAME.player.Player;
 
 import static com.rohitsaini.mogli.GAME.myKeyWords.my_X;
 
