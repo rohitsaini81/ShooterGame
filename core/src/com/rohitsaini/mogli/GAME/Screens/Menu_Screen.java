@@ -7,8 +7,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.rohitsaini.mogli.GAME.Player;
-import com.rohitsaini.mogli.GAME.Screens.MainGame;
+import com.rohitsaini.mogli.GAME.player.Player;
 import com.rohitsaini.mogli.Mogali;
 
 
@@ -22,10 +21,10 @@ public class Menu_Screen implements Screen {
 
     public Menu_Screen(Mogali game){
         this.game = game;
-        theme = Gdx.audio.newSound(Gdx.files.internal("ezio_family.mp3"));
+        theme = Gdx.audio.newSound(Gdx.files.internal("etc/ezio_family.mp3"));
         if (TITLE_MYNAME==null){
-            TITLE_MYNAME=new Texture("rohitsainipixel.png");
-            GAME_TITLE= new Texture("assassins-creed-brotherhood-thumbnail.png");
+            TITLE_MYNAME=new Texture("etc/rohitsainipixel.png");
+            GAME_TITLE= new Texture("etc/assassins-creed-brotherhood-thumbnail.png");
             game.font = new BitmapFont();
         }
     }

@@ -1,8 +1,11 @@
 package com.rohitsaini.mogli.GAME.Screens;
 
+import com.badlogic.gdx.Audio;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -10,9 +13,9 @@ import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.rohitsaini.mogli.GAME.Bullet;
-import com.rohitsaini.mogli.GAME.Controlls;
+import com.rohitsaini.mogli.GAME.Controler.Controlls;
 import com.rohitsaini.mogli.GAME.Levels.Level1;
-import com.rohitsaini.mogli.GAME.Player;
+import com.rohitsaini.mogli.GAME.player.Player;
 import com.rohitsaini.mogli.GAME.DrawShapes.Shapes;
 import com.rohitsaini.mogli.GAME.SurfaceObjects;
 import com.rohitsaini.mogli.GAME.Variables;
@@ -21,7 +24,7 @@ import com.rohitsaini.mogli.GAME.enemies.Enemies;
 
 import java.util.ArrayList;
 
-//import static com.rohitsaini.mogli.GAME.Player.textureenemey;
+//import static com.rohitsaini.mogli.GAME.player.Player.textureenemey;
 import static com.rohitsaini.mogli.GAME.DrawShapes.Shapes.airStands;
 import static com.rohitsaini.mogli.GAME.DrawShapes.Shapes.all_shapes;
 import static com.rohitsaini.mogli.GAME.myKeyWords.*;
@@ -41,16 +44,21 @@ public class MainGame implements Screen {
     static Shapes shapes;
 
 
+    public static Sound themesound;
+    static Audio audio;
+    static Music music;
 
     public static Enemies enemy;
     Player player;
     SurfaceObjects surfaceObjects;
+    statusbar statusbar;
 
     public MainGame(Game game) {
+        statusbar = new statusbar();
         this.game = game;
         level1= new Level1();
         shapeRenderer= new ShapeRenderer();
-
+        themesound = Gdx.audio.newSound(Gdx.files.internal("playerSound/warning-mystrious.mp3"));
         Variables.camera = new OrthographicCamera(W2/2,H/2);
         Variables.camera.setToOrtho(false, W2/2 ,H/2);
 
@@ -65,7 +73,7 @@ public class MainGame implements Screen {
         surfaceObjects = new SurfaceObjects();
         Variables.batch = new SpriteBatch();
         player= new Player();
-        Variables.backgroundT = new Texture("Background.png");
+        Variables.backgroundT = new Texture("etc/Background.png");
         Variables.sprite=new Sprite(Variables.backgroundT);
         Variables.Font = new BitmapFont();
 
@@ -79,6 +87,7 @@ public class MainGame implements Screen {
         all_shapes.add(level1.airStands1);
         all_shapes.add(level1.airStands2);
         all_shapes.add(level1.airStands3);
+        all_shapes.add(level1.airStands4);
 
 
 
@@ -104,6 +113,8 @@ public class MainGame implements Screen {
         Variables.Font.setColor(Color.PINK);
         states.add("X:" +(int)Player.PlayerX+"Y:"+(int)Player.PlayerY);
         states.add("X:"+Gdx.input.getX()+" ,Health:"+Player.PLAYER_HEALTH);
+//        themesound.play();
+        themesound.loop();
 
     }
 //  <----------- Render Method -------------->
@@ -134,25 +145,12 @@ public class MainGame implements Screen {
         }
 
 
-//        System.out.println("camera.view.getScaleX()"+Variables.camera.view.getScaleX()); it return 1.0 always
+//        statusbar.stage.act();
+//        statusbar.stage.draw();
+//         Render --------->   :
 
-        states.set(0,"X:" +(int)Player.PlayerX+"Y:"+(int)Player.PlayerY);
-        states.set(1,"X:"+Gdx.input.getX()+" ,Health:"+Player.PLAYER_HEALTH);
-
-        for (int i = 0; i < states.size(); i++) {
-//            System.out.println(states.get(0));
-            if (Player.getX()>100){
-                Variables.Font.draw(Variables.batch, states.get(i),(Player.PlayerX-100),my_Y+(i*50));
-            }
-
-        }
-
-        Variables.Font.draw(Variables.batch,"|",Player.PlayerX ,80);
-
-
-//         Render Surfaces Objects
+//        statusbar.render();
         surfaceObjects.renderSfObjects(Variables.batch);
-//        Snake Positon x460 y38
         enemy.RenderEnemy();
         Player.renderPlayer();
 
@@ -255,6 +253,9 @@ public class MainGame implements Screen {
 //        Variables.Font.dispose();
         enemy.sound.dispose();
         Shapes.shapeRenderer.dispose();
+        themesound.dispose();
+        Player.playerrunninggrass.dispose();
+        Player.playerrunningfloor.dispose();
 
 
 

@@ -1,12 +1,16 @@
-package com.rohitsaini.mogli.GAME;
+package com.rohitsaini.mogli.GAME.player;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.utils.Array;
+import com.rohitsaini.mogli.GAME.Controler.Controlls;
 import com.rohitsaini.mogli.GAME.DrawShapes.Shapes;
+import com.rohitsaini.mogli.GAME.Variables;
 
 
 public class Player {
@@ -18,21 +22,23 @@ public class Player {
     public static float Player_prevX;
     public static float Player_prevY;
     public static int Player_State;
-    static int Player_Prev_State;
-    static boolean isXCollision;
-    static boolean isYCollision;
-    static float firingtime;
+    public static int Player_Prev_State;
+    public static boolean isXCollision;
+    public static boolean isYCollision;
+    public static float firingtime;
 
     public static float PLAYER_HEALTH;
-    static boolean canPLayerMoveLeft;
-    static boolean canPLayerMoveRight;
+    public static boolean canPLayerMoveLeft;
+    public static boolean canPLayerMoveRight;
+    public static boolean movecamera;
 
     public static float PlayerX;
     public static float PlayerY;
     public static float eyex1;
     public static float eyex2;
-    static float PlayerWidth;
-    static float PlayerHeight;
+    public static float PlayerWidth;
+    public static float PlayerHeight;
+    public static float PlayerSpeed;
 
 
 
@@ -40,7 +46,12 @@ public class Player {
 
 //     Non-Primitive Variables
 
+    public static Array<Boolean> cameraOn;
+    public static Array<Float> pl_twopoint;
+
     public static Sound playerDead;
+    public static Music playerrunningfloor;
+    public static Music playerrunninggrass;
 
     public static Rectangle eyerect;
 
@@ -75,14 +86,15 @@ public class Player {
     public static void setX(float playerX) {
         PlayerX=playerX;
     }
+    public static void setY(float playerY) {
+        PlayerY=playerY;
+    }
+
     public static float getX() {
         return PlayerX;
     }
     public static float getY() {
         return Shapes.player.getY();
-    }
-    public static void setY(float playerY) {
-        PlayerY=playerY;
     }
 
 
@@ -93,8 +105,18 @@ public class Player {
         PlayerWidth=50;PlayerHeight=60;
         Player_State = 2;
         firingtime=0;
+        movecamera=true;
+        PlayerSpeed=70;
+
         PlayerDirectionRight=true;
+        cameraOn = new Array<>();
+        pl_twopoint=new Array<>(2);
+        pl_twopoint.add(Player.PlayerX);
+        pl_twopoint.add(Player.PlayerX);
+        cameraOn.add(true);
         playerDead=Gdx.audio.newSound(Gdx.files.internal("playerSound/ouchmp3-14591.mp3"));
+        playerrunningfloor = Gdx.audio.newMusic(Gdx.files.internal("playerSound/running-on-floor.mp3"));
+        playerrunninggrass = Gdx.audio.newMusic(Gdx.files.internal("playerSound/running-on-grass.mp3"));
 //        ouchmp3-14591.mp3
 //        characterouch2-163912.mp3
 //        male_hurt7-48124.mp3
@@ -120,7 +142,7 @@ public class Player {
         for (int j = 0; j <6; j++) {
             playerTextureRegions[index++]=temp[0][j];
         }
-        playerILeftAnimation = new Animation<>(.08f, playerTextureRegions);
+        playerILeftAnimation = new Animation<>(.2f, playerTextureRegions);
         index=0;
 //      Idle Right
         temp = TextureRegion.split(TextureRight,128,128);
@@ -128,7 +150,7 @@ public class Player {
         for (int j = 0; j <6; j++) {
             playerTextureRegions[index++]=temp[0][j];
         }
-        playerAnimation = new Animation<>(.08f, playerTextureRegions);
+        playerAnimation = new Animation<>(0.4f, playerTextureRegions);
         index=0;
 
 //        Running Animation Right
@@ -193,6 +215,7 @@ public class Player {
     }
 
     public static void renderPlayer(){
+        pl_twopoint.set(1, Player.PlayerX);
         eyex1 = Math.abs(Player.PlayerX-120);
         eyex2 = Math.abs(Player.PlayerX+120);
         if (firingtime>0){
@@ -212,35 +235,58 @@ public class Player {
 
         switch (Player_State){
             case 0:
+                PlayerIsIdle=false;
                 Variables.batch.draw(Player.playerJumpAnimation.getKeyFrame(Variables.stateTime,true), Player.PlayerX, Player.PlayerY,PlayerWidth,PlayerHeight);
                 break;
             case 1:
+                PlayerIsIdle=false;
                 Variables.batch.draw(Player.playerRunningAnimation.getKeyFrame(Variables.stateTime,true), Player.PlayerX, Player.PlayerY,PlayerWidth,PlayerHeight);
                 break;
             case 11:
+                PlayerIsIdle=false;
                 Variables.batch.draw(Player.LeftplayerRunningAnimation.getKeyFrame(Variables.stateTime,true), Player.PlayerX, Player.PlayerY,PlayerWidth,PlayerHeight);
                  break;
             case 3:
+                PlayerIsIdle=false;
                 if (Player.PlayerDirectionRight) {
+//                    PlayerIsIdle=false;
                     Variables.batch.draw(Player.playerFiringAnimation.getKeyFrame(Variables.stateTime, true), Player.PlayerX, Player.PlayerY, PlayerWidth, PlayerHeight);
-                }else {Variables.batch.draw(Player.playerFiringLeftAnimation.getKeyFrame(Variables.stateTime, true), Player.PlayerX, Player.PlayerY, PlayerWidth, PlayerHeight);}
+                }else {
+//                    PlayerIsIdle=false;
+                    Variables.batch.draw(Player.playerFiringLeftAnimation.getKeyFrame(Variables.stateTime, true), Player.PlayerX, Player.PlayerY, PlayerWidth, PlayerHeight);}
                 break;
             default:
 
                 if (Player.PlayerDirectionRight && Player.firingtime==0){
+                    PlayerIsIdle=true;
                 Variables.batch.draw(Player.playerAnimation.getKeyFrame(Variables.stateTime,true), Player.PlayerX, Player.PlayerY,PlayerWidth,PlayerHeight);}
-                else if (Player.firingtime==0){Variables.batch.draw(Player.playerILeftAnimation.getKeyFrame(Variables.stateTime,true), Player.PlayerX, Player.PlayerY,PlayerWidth,PlayerHeight);}
+                else if (Player.firingtime==0){
+                    PlayerIsIdle=true;
+                    Variables.batch.draw(Player.playerILeftAnimation.getKeyFrame(Variables.stateTime,true), Player.PlayerX, Player.PlayerY,PlayerWidth,PlayerHeight);}
                  break;
 
         }
-
-
-
-
-
-
-
-
+//        System.out.println(playerrunningfloor.getPosition());
+        if (!PlayerIsIdle && !playerrunningfloor.isPlaying() && Controlls.Landed){
+//            System.out.println("playing running sound");
+//            playerrunninggrass.play();
+            playerrunningfloor.play();
+        }
+        if (PlayerIsIdle){
+//            System.out.println("player idel");
+            playerrunninggrass.dispose();
+            playerrunningfloor.dispose();
+        }
 
     }
+    public static Boolean checkcameraeye() {
+        for (Boolean B : Player.cameraOn) {
+            if (!B) {
+//                System.out.println(B+"b is false");
+                return false;
+            }
+        }
+        return true;
+    }
+
 }

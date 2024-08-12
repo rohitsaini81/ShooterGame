@@ -17,8 +17,8 @@ public class SurfaceObjects {
     Collision SandCollision;
 
     public SurfaceObjects() {
-        Texture sandTexture = new Texture("sand.png");
-        Texture iceTexture = new Texture("sand.png"); // Assuming there's a separate ice texture
+        Texture sandTexture = new Texture("etc/sand.png");
+        Texture iceTexture = new Texture("jammers/ice.png"); // Assuming there's a separate ice texture
         BoxJammer1 = new Rectangle();
         BoxJammer2 = new Rectangle();
 
@@ -30,8 +30,8 @@ public class SurfaceObjects {
 
 
 
-        Ice.setPosition(400, 60);
-        BoxJammer2.set(400,60,15,20);
+        Ice.setPosition(605, 60);
+        BoxJammer2.set(605,60,15,20);
         Ice.setSize(15, 20);
 //        SandCollision= new Collision(Sand);
     }

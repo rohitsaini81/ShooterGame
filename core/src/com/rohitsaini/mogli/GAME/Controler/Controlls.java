@@ -1,12 +1,17 @@
-package com.rohitsaini.mogli.GAME;
+package com.rohitsaini.mogli.GAME.Controler;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.rohitsaini.mogli.GAME.Bullet;
 import com.rohitsaini.mogli.GAME.DrawShapes.Shapes;
 import com.rohitsaini.mogli.GAME.Screens.MainGame;
+import com.rohitsaini.mogli.GAME.Variables;
 import com.rohitsaini.mogli.GAME.player.Player;
 
+import java.util.Objects;
+
 import static com.rohitsaini.mogli.GAME.myKeyWords.my_X;
+import static com.rohitsaini.mogli.GAME.myKeyWords.sout;
 
 public class Controlls {
     public static boolean JUMP= false;
@@ -15,10 +20,17 @@ public class Controlls {
     static float XValue;
     static float X2Value;
     static float bottomValue;
+    public static float cameratime=0;
+//    cameratime = 0;
+
     public static void render(float delta){
+
         if (Gdx.input.isKeyPressed(Input.Keys.W)) {
 //                System.out.println("surface y: "+Variables.SurfaceY);
             MainGame.jumptime=0;
+            cameratime = 10;
+            MainGame.themesound.dispose();
+            System.out.println(MainGame.themesound.play());
 
 
 
@@ -57,9 +69,22 @@ public class Controlls {
                     Player.setY(--Player.PlayerY);
                 }
             }
-            if (Player.getX()>121&&Player.getX()<2020) {
-                Variables.camera.position.set(Player.getX(), Variables.camera.viewportHeight / 2, 0);
-            }
+//            if (Player.getX()>121&&Player.getX()<2020) {
+//                Variables.camera.position.set(Player.getX(), Variables.camera.viewportHeight / 2, 0);
+//            }
+//            if (Player.checkcameraeye()) {
+//                cameratime-=Variables.SPEED*delta;
+//            }
+
+           if (cameratime>0){
+//               Variables.camera.translate(2f,0f,0f);
+//               sout("translating camera");
+               cameratime-=Player.PlayerSpeed*delta;
+           }
+           if (Player.movecamera){
+               Variables.camera.position.set(Player.getX(), Variables.camera.viewportHeight / 2, 0);
+           }
+
 
 
 
@@ -71,7 +96,7 @@ public class Controlls {
                 Player.Player_State = 1;
                 Player.Player_Prev_State=Player.Player_State;
                 Player.PlayerDirectionRight = true;
-                Player.PlayerX += Variables.SPEED * delta;
+                Player.PlayerX += Player.PlayerSpeed * delta;
                 if(Shapes.check_collision()) {
 
 
@@ -89,7 +114,7 @@ public class Controlls {
                 Player.Player_Prev_State=Player.Player_State;
                 Player.Player_State = 11;
                 Player.PlayerDirectionRight = false;
-                Player.PlayerX -= Variables.SPEED * delta;
+                Player.PlayerX -= Player.PlayerSpeed * delta;
                 if(Shapes.check_collision()) {
 
 

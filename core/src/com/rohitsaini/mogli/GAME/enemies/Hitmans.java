@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.rohitsaini.mogli.GAME.Bullet;
-import com.rohitsaini.mogli.GAME.Player;
+import com.rohitsaini.mogli.GAME.player.Player;
 import com.rohitsaini.mogli.GAME.DrawShapes.Shapes;
 import com.rohitsaini.mogli.GAME.Variables;
 
@@ -22,13 +22,18 @@ public class Hitmans {
     int index;
     private float enmey_X;
     private float enmey_Y;
+    private float facePx;
     private boolean rightface;
     public int health;
+    public float spawn_location;
     Hitmans (){
+
+        spawn_location=500;
         rightface=true;
+        facePx=-1;
         enemyrecta=new Rectangle();
         index=0;
-        enmey_X=Gdx.graphics.getWidth();
+        enmey_X=spawn_location-5;
         enmey_Y=60;
         health=20;
         bullets = new ArrayList<>();
@@ -51,7 +56,7 @@ public class Hitmans {
     private float timer;
     private void  Ai (){
         float distance=Math.abs(Shapes.player.getX()-(Math.abs(enmey_X)));
-        System.out.println(rightface);
+//        System.out.println(rightface);
         timer--;
         if (timer<=-10){timer=Math.abs(timer);}
         if (enemyrecta.overlaps(Shapes.player)&& Player.PLAYER_HEALTH>0){
@@ -59,14 +64,19 @@ public class Hitmans {
         }
 
 
-
-        enmey_X-=Variables.SPEED* Gdx.graphics.getDeltaTime();
-        if (enmey_X<-300){
-            rightface=false;
+        enmey_X=(enmey_X-(Variables.SPEED* Gdx.graphics.getDeltaTime())*facePx);
+        System.out.println(facePx);
+        if (enmey_X>spawn_location){
+            rightface=true;
+            facePx=1;
+            System.out.println("right >>>");
             enmey_X=Math.abs(enmey_X);
         }
-        if (Math.abs(enmey_X)==0){
-            rightface=true;
+        if (enmey_X<(spawn_location-100)){
+            enmey_X=Math.abs(enmey_X);
+            System.out.println("left <<<");
+            rightface=false;
+            facePx=-1;
         }
 
         if (Math.abs(timer)/2==0 && distance<100 && Player.PLAYER_HEALTH>0){

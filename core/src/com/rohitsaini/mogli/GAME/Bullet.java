@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
+import com.rohitsaini.mogli.GAME.player.Player;
 
 
 public class Bullet {
@@ -25,7 +26,7 @@ public class Bullet {
 
     public Bullet(float bulletX){
         this.bolletWall=Player.getX()+Gdx.graphics.getWidth();
-        bulletTexture = new Texture("02.png");
+        bulletTexture = new Texture("etc/02.png");
         bulletSound = Gdx.audio.newSound(Gdx.files.internal("playerSound/Raw-Shoot-Variation01.mp3"));
         bulletSound.play();
         bullet = new Sprite(bulletTexture);
@@ -48,7 +49,7 @@ public class Bullet {
     }
     public Bullet(float bulletX,float bulletY,boolean right){
         this.bolletWall=Player.getX()+Gdx.graphics.getWidth();
-        bulletTexture = new Texture("02.png");
+        bulletTexture = new Texture("etc/02.png");
         bulletSound = Gdx.audio.newSound(Gdx.files.internal("playerSound/Raw-Shoot-Variation01.mp3"));
         bulletSound.play();
         this.BulletY=bulletY;

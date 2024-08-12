@@ -3,7 +3,7 @@ package com.rohitsaini.mogli.GAME;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.rohitsaini.mogli.GAME.player.Player;
 
 
 import static com.rohitsaini.mogli.GAME.myKeyWords.*;

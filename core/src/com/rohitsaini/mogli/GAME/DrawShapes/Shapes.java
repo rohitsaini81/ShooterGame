@@ -1,15 +1,12 @@
 package com.rohitsaini.mogli.GAME.DrawShapes;
 
-import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.rohitsaini.mogli.GAME.Player;
+import com.rohitsaini.mogli.GAME.player.Player;
 import com.rohitsaini.mogli.GAME.Screens.MainGame;
 import com.rohitsaini.mogli.GAME.SurfaceObjects;
 import com.rohitsaini.mogli.GAME.Variables;
-import com.rohitsaini.mogli.Mogali;
 
 import java.util.ArrayList;
 
@@ -79,7 +76,8 @@ public class Shapes {
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         shapeRenderer.rect(MainGame.level1.airStands1.getX(),MainGame.level1.airStands1.getY(),MainGame.level1.airStands1.getWidth(),MainGame.level1.airStands1.getHeight());
         shapeRenderer.rect(MainGame.level1.airStands2.getX(),MainGame.level1.airStands2.getY(),MainGame.level1.airStands2.getWidth(),MainGame.level1.airStands2.getHeight());
-        shapeRenderer.rect(MainGame.level1.airStands3.getX(),MainGame.level1.airStands3.getY(),MainGame.level1.airStands3.getWidth(),MainGame.level1.airStands3.getHeight());
+       shapeRenderer.rect(MainGame.level1.airStands3.getX(),MainGame.level1.airStands3.getY(),MainGame.level1.airStands3.getWidth(),MainGame.level1.airStands3.getHeight());
+       shapeRenderer.rect(MainGame.level1.airStands4.getX(),MainGame.level1.airStands4.getY(),MainGame.level1.airStands4.getWidth(),MainGame.level1.airStands4.getHeight());
 
        shapeRenderer.setColor(Color.BLACK);
        shapeRenderer.rect(MainGame.enemy.Henenmy.enemyrecta.getX(),MainGame.enemy.Henenmy.enemyrecta.getY(),MainGame.enemy.Henenmy.enemyrecta.getWidth(),MainGame.enemy.Henenmy.enemyrecta.getHeight());

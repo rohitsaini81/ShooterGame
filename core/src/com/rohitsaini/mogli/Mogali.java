@@ -24,7 +24,7 @@ public class Mogali extends Game {
 	
 	@Override
 	public void create () {
-		img= new Texture("sand.png");
+		img= new Texture("etc/sand.png");
 		batch = new SpriteBatch();
 //		Menu= new Menu_Screen(this);
 //		this.setScreen(Menu);

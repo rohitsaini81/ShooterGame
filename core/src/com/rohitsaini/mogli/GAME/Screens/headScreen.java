@@ -57,7 +57,7 @@ float counter=0;
 
         game.batch.begin();
 //        game.batch.draw(game.img,100,100,100,100);
-        System.out.println("vallue of counter is : "+counter);
+//        System.out.println("vallue of counter is : "+counter);
         if (counter<=-100){
             counter=Math.abs(counter);
 
