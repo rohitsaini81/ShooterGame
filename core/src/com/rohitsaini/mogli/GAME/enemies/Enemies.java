@@ -33,6 +33,7 @@ public class Enemies{
     public boolean isDead;
     public int enemyHealth;
     public Hitmans Henenmy;
+    public Hitmans.Zombie zombie;
     public float getX(){
         return enmey_X;
     }
@@ -70,12 +71,14 @@ public class Enemies{
         this.sound.play();
 
         Henenmy= new Hitmans();
+        zombie= new Hitmans.Zombie(500);
     }
 
-    public void RenderEnemy(){
+
+    public void thisenemy(){
         if (enemyHealth>0){
             this.AI_render();
-    }else {enemyHealth=0;}
+        }else {enemyHealth=0;}
         if(enemyHealth>0 && Shapes.player.overlaps(EnemyJammer1)) {
             if(Player.PlayerY<(EnemyJammer1.getY()+15)){
                 Player.PLAYER_HEALTH--;
@@ -96,8 +99,13 @@ public class Enemies{
 //        System.out.println("enemyX"+enmey_X);
         Variables.batch.draw(this.EnemiesAnimation.getKeyFrame(Variables.stateTime,true),enmey_X,enmey_Y,25,30);
 
-//          sdaf
+    }
+
+    public void RenderEnemy(){
+
+        thisenemy();
         Henenmy.render();
+        zombie.render();
 
 
 

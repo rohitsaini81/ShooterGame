@@ -15,6 +15,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.rohitsaini.mogli.GAME.Bullet;
 import com.rohitsaini.mogli.GAME.Controler.Controlls;
 import com.rohitsaini.mogli.GAME.Levels.Level1;
+import com.rohitsaini.mogli.GAME.enemies.Hitmans;
 import com.rohitsaini.mogli.GAME.player.Player;
 import com.rohitsaini.mogli.GAME.DrawShapes.Shapes;
 import com.rohitsaini.mogli.GAME.SurfaceObjects;
@@ -88,6 +89,7 @@ public class MainGame implements Screen {
         all_shapes.add(level1.airStands2);
         all_shapes.add(level1.airStands3);
         all_shapes.add(level1.airStands4);
+        all_shapes.add(Hitmans.Zombie.zombieRect);
 
 
 
@@ -149,7 +151,6 @@ public class MainGame implements Screen {
 //        statusbar.stage.draw();
 //         Render --------->   :
 
-//        statusbar.render();
         surfaceObjects.renderSfObjects(Variables.batch);
         enemy.RenderEnemy();
         Player.renderPlayer();
@@ -220,6 +221,9 @@ public class MainGame implements Screen {
         }
         
        
+        Variables.batch.end();
+        Variables.batch.begin();
+        statusbar.render();
         Variables.batch.end();
         shapes.shaperender();
         level1.render();

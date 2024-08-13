@@ -94,7 +94,7 @@ public class Player {
         return PlayerX;
     }
     public static float getY() {
-        return Shapes.player.getY();
+        return PlayerY;
     }
 
 

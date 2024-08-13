@@ -3,6 +3,7 @@ package com.rohitsaini.mogli.GAME.enemies;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.rohitsaini.mogli.GAME.Bullet;
@@ -104,4 +105,70 @@ public class Hitmans {
             bullet.Bullet_fire(Variables.batch);
         }
     }
+
+
+
+
+
+
+
+    public static class Zombie{
+        public static Rectangle zombieRect;
+        public int health;
+        public Animation<TextureRegion> zombieAnimation;
+        public TextureRegion[] zombieTextureRegions;
+
+
+        float zombieX=100;
+        float zombieY=60;
+        float spwan_location=500;
+
+
+
+        public Zombie(float SpawnX){
+            Texture Textture = new Texture("etc/others/zombie_spritesheet.png");
+            zombieRect = new Rectangle(0,0,0,0);
+            health = 20;
+            spwan_location= SpawnX;
+
+            TextureRegion[][] temp= TextureRegion.split(Textture,32,32);
+            int Ti=8;
+            int index=0;
+            this.zombieTextureRegions = new TextureRegion[Ti];
+            for (int j = 0; j < Ti; j++) {
+                this.zombieTextureRegions[index++]=temp[1][j];
+            }
+            this.zombieAnimation=new Animation<>(0.2f, this.zombieTextureRegions);
+        }
+
+        public void render(){
+                Variables.batch.draw(zombieAnimation.getKeyFrame(Variables.stateTime,true),getX(),60,32, 32);
+                Aisystem();
+        }
+
+
+
+
+        public float getX(){
+            return this.zombieX;
+        }
+        public void setX(float X){
+            this.zombieX=X;
+        }
+        int facePx=-1;
+        private void Aisystem(){
+            if (health>0){
+                setX(getX()-(3* Gdx.graphics.getDeltaTime())*facePx);
+                zombieRect.set(this.getX(),60,20,32);
+
+                if (getX()>spwan_location){
+                    facePx=1;
+                }
+                if (getX()<spwan_location-100){
+                    facePx=-1;
+                }
+            }
+        }
+    }
 }
+
