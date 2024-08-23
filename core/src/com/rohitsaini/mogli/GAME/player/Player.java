@@ -60,6 +60,7 @@ public class Player {
     static Texture Texture2Left,Texture2Right;
     static Texture Texture3Left,Texture3Right;
     static Texture Texture4Left,Texture4Right;
+    static Texture Texture5;
 
     static TextureRegion[] playerTextureRegions;
     static TextureRegion[] playerRunningTextureRegions;
@@ -67,6 +68,7 @@ public class Player {
     static TextureRegion[] playerJumpTextureRegions;
     static TextureRegion[] playerFiringTextureRegions;
     static TextureRegion[] playerFiringLeftTextureRegions;
+    static TextureRegion[] bloodTextureRegions;
 
 
     static Animation<TextureRegion> playerAnimation;
@@ -76,6 +78,7 @@ public class Player {
     static Animation<TextureRegion> playerJumpAnimation;
     static Animation<TextureRegion> playerFiringAnimation;
     static Animation<TextureRegion> playerFiringLeftAnimation;
+    static Animation<TextureRegion> bloodAnimation;
     TextureRegion[][] temp;
 
 
@@ -131,6 +134,8 @@ public class Player {
 
         Texture4Right= new Texture("characterSprites/Gangsters_1/Shot.png");
         Texture4Left= new Texture("characterSprites/Gangsters_1/ShotL.png");
+        Texture5= new Texture("etc/bloodsprite.png");
+
 
 
 
@@ -211,6 +216,18 @@ public class Player {
         index=0;
 
 
+//        Blood Amimation
+
+        temp = TextureRegion.split(Texture5,100,100);
+
+        bloodTextureRegions= new TextureRegion[6];
+        for (int j = 0; j <6; j++) {
+            bloodTextureRegions[index++]=temp[1][j];
+        }
+
+        bloodAnimation = new Animation<>(.2f, bloodTextureRegions);
+        index=0;
+
 
     }
 
@@ -259,10 +276,14 @@ public class Player {
 
                 if (Player.PlayerDirectionRight && Player.firingtime==0){
                     PlayerIsIdle=true;
-                Variables.batch.draw(Player.playerAnimation.getKeyFrame(Variables.stateTime,true), Player.PlayerX, Player.PlayerY,PlayerWidth,PlayerHeight);}
+                Variables.batch.draw(Player.playerAnimation.getKeyFrame(Variables.stateTime,true), Player.PlayerX, Player.PlayerY,PlayerWidth,PlayerHeight);
+                Variables.batch.draw(Player.bloodAnimation.getKeyFrame(Variables.stateTime,true), Player.PlayerX+9, Player.PlayerY,32,32);}
+
                 else if (Player.firingtime==0){
                     PlayerIsIdle=true;
-                    Variables.batch.draw(Player.playerILeftAnimation.getKeyFrame(Variables.stateTime,true), Player.PlayerX, Player.PlayerY,PlayerWidth,PlayerHeight);}
+                    Variables.batch.draw(Player.playerILeftAnimation.getKeyFrame(Variables.stateTime,true), Player.PlayerX, Player.PlayerY,PlayerWidth,PlayerHeight);
+                    Variables.batch.draw(Player.bloodAnimation.getKeyFrame(Variables.stateTime,true), Player.PlayerX, Player.PlayerY,32,32);}
+
                  break;
 
         }

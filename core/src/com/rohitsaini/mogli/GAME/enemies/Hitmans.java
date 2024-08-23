@@ -1,11 +1,16 @@
 package com.rohitsaini.mogli.GAME.enemies;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.github.tommyettinger.textra.TypingLabel;
 import com.rohitsaini.mogli.GAME.Bullet;
 import com.rohitsaini.mogli.GAME.player.Player;
 import com.rohitsaini.mogli.GAME.DrawShapes.Shapes;
@@ -13,10 +18,11 @@ import com.rohitsaini.mogli.GAME.Variables;
 
 import java.util.ArrayList;
 
+import static com.rohitsaini.mogli.GAME.myKeyWords.RandomNumber;
+import static com.rohitsaini.mogli.GAME.myKeyWords.sout;
+
 public class Hitmans {
     public Rectangle enemyrecta;
-    TextureRegion[][] temp;
-    TextureRegion[] enemyTextureRegions;
     Animation<TextureRegion> enemyAnimation;
     private ArrayList<Bullet> bullets;
 
@@ -39,6 +45,8 @@ public class Hitmans {
         health=20;
         bullets = new ArrayList<>();
         Texture T=new Texture("characterSprites/Robots.png");
+        TextureRegion[][] temp;
+        TextureRegion[] enemyTextureRegions;
         temp = TextureRegion.split(T,24,32);
         enemyTextureRegions = new TextureRegion[6];
         for (int j = 0; j <6; j++) {
@@ -51,8 +59,7 @@ public class Hitmans {
             Ai();
         }else {health=0;}
         enemyrecta.set(Math.abs(enmey_X),enmey_Y,40,25);
-        Variables.batch.draw(enemyAnimation.getKeyFrame(Variables.stateTime,true),Math.abs(enmey_X),enmey_Y,40, 40);
-
+            Variables.batch.draw(enemyAnimation.getKeyFrame(Variables.stateTime,true),Math.abs(enmey_X),enmey_Y,40, 40);
     }
     private float timer;
     private void  Ai (){
@@ -66,16 +73,16 @@ public class Hitmans {
 
 
         enmey_X=(enmey_X-(Variables.SPEED* Gdx.graphics.getDeltaTime())*facePx);
-        System.out.println(facePx);
+//        System.out.println(facePx);
         if (enmey_X>spawn_location){
             rightface=true;
             facePx=1;
-            System.out.println("right >>>");
+//            System.out.println("right >>>");
             enmey_X=Math.abs(enmey_X);
         }
         if (enmey_X<(spawn_location-100)){
             enmey_X=Math.abs(enmey_X);
-            System.out.println("left <<<");
+//            System.out.println("left <<<");
             rightface=false;
             facePx=-1;
         }
@@ -113,23 +120,44 @@ public class Hitmans {
 
 
     public static class Zombie{
-        public static Rectangle zombieRect;
+        public Rectangle zombieRect;
         public int health;
+        public int id;
+        public boolean dead;
         public Animation<TextureRegion> zombieAnimation;
+        public Animation<TextureRegion> rzombieAnimation;
         public TextureRegion[] zombieTextureRegions;
 
 
         float zombieX=100;
         float zombieY=60;
-        float spwan_location=500;
+        float spwan_location;
+        int facePx;
+        TypingLabel zombiesXY;
+        BitmapFont text;
+
+        Music zombieEating;
+        Music zombieSound;
+
 
 
 
         public Zombie(float SpawnX){
+            dead=false;
+            final String path="etc/others/";
+          zombieSound=Gdx.audio.newMusic(Gdx.files.internal(path+"zombieSounds/zombie-moans-29924.mp3"));
+//          zombieSound;
+          text= new BitmapFont();
+          text.getData().setScale(0.5f);
+            zombiesXY= new TypingLabel();
+            if(RandomNumber(1)==1){
+                facePx=1;
+            }else {facePx=-1;}
             Texture Textture = new Texture("etc/others/zombie_spritesheet.png");
-            zombieRect = new Rectangle(0,0,0,0);
-            health = 20;
+            Texture Textture_r = new Texture("etc/others/r-zombie_spritesheet.png");
             spwan_location= SpawnX;
+            zombieRect = new Rectangle(spwan_location,60,20,32);
+            health = 20;
 
             TextureRegion[][] temp= TextureRegion.split(Textture,32,32);
             int Ti=8;
@@ -139,34 +167,92 @@ public class Hitmans {
                 this.zombieTextureRegions[index++]=temp[1][j];
             }
             this.zombieAnimation=new Animation<>(0.2f, this.zombieTextureRegions);
+
+            temp= TextureRegion.split(Textture_r,32,32);
+            Ti=8;
+            index=0;
+            TextureRegion[] rzombieTextureRegions;
+            rzombieTextureRegions = new TextureRegion[Ti];
+            for (int j = 0; j < Ti; j++) {
+                rzombieTextureRegions[index++]=temp[1][j];
+            }
+            this.rzombieAnimation=new Animation<>(0.2f, rzombieTextureRegions);
+
+
+//            System.out.println("spl:"+spwan_location);
+
         }
 
         public void render(){
-                Variables.batch.draw(zombieAnimation.getKeyFrame(Variables.stateTime,true),getX(),60,32, 32);
-                Aisystem();
+            Aisystem();
+//            zombiesXY.setDefaultToken("zombie XY: "+zombieRect.getX()+" "+60);
+            text.draw(Variables.batch,""+zombieRect.getX(),zombieRect.getX(),zombieRect.getY()+60,5,5,false);
+            if (facePx==-1){
+                Variables.batch.draw(zombieAnimation.getKeyFrame(Variables.stateTime,true),zombieRect.getX(),60,32, 32);
+            }else {
+                Variables.batch.draw(rzombieAnimation.getKeyFrame(Variables.stateTime, true), zombieRect.getX(), 60, 32, 32);
+            }
         }
 
+boolean calledswitch=false;
+void swither(){
+    if (!calledswitch){
+//        sout("switcher is called");
+        spwan_location=zombieRect.getX();
+        if(RandomNumber(1)==1){
+            facePx=1;
+        }else {facePx=-1;}
+    }
+    calledswitch=true;
+}
+void defalutbehave(){
+    if (zombieRect.getX()>spwan_location){
+//                    Going to 'left' side
+        facePx=1;
+    }
+    else if (zombieRect.getX()<spwan_location-100){
+//                    Going to right side
+        facePx=-1;
+    }
+}
 
-
-
-        public float getX(){
-            return this.zombieX;
-        }
         public void setX(float X){
-            this.zombieX=X;
+            zombieRect.setX(X);
         }
-        int facePx=-1;
+
         private void Aisystem(){
             if (health>0){
-                setX(getX()-(3* Gdx.graphics.getDeltaTime())*facePx);
-                zombieRect.set(this.getX(),60,20,32);
+//                System.out.println(facePx+"face side");
+                float a=zombieRect.getX();
+                int random=(int) RandomNumber(3);
+                float b=(3* Gdx.graphics.getDeltaTime()*random)*facePx;
+//                System.out.println("a:"+a+" b:"+b);
+                zombieRect.set(a-b,60,20,32);
 
-                if (getX()>spwan_location){
-                    facePx=1;
+
+                if (Shapes.player.overlaps(zombieRect)){
+                    facePx=0;
+                    calledswitch=false;
+                    if (!zombieSound.isPlaying()){
+                    zombieSound.play();
+                    }
+                }else if (Player.getX()<zombieRect.getX() && Player.getX()>zombieRect.getX()-5 ||Player.getX()>zombieRect.getX() && Player.getX()>zombieRect.getX()+5){
+                    swither();
                 }
-                if (getX()<spwan_location-100){
+                else if (Player.getX()<zombieRect.getX() && Player.getX()>(zombieRect.getX()-20)){
+//                    facePx=1;
+                    spwan_location=zombieRect.getX();
+                }
+                if (Player.getX()>zombieRect.getX() && Player.getX()>(zombieRect.getX()+50)){
                     facePx=-1;
+                    spwan_location=zombieRect.getX();
                 }
+
+
+
+//                if (Player.getX()<zombieRect.getX() && Player.getX()>(zombieRect.getX()-50)|| Player.getX()>zombieRect.getX() && Player.getX()>(zombieRect.getX()+50)){
+//                    System.out.println("i see a human. roar----****;;;");
+//                }
             }
         }
     }

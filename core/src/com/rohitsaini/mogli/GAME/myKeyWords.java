@@ -12,9 +12,10 @@ public class myKeyWords {
     public static boolean No(){
         return false;
     }
-    public static double RandomNumber(){
-        return Math.round(10 * Math.random()) + 1;
+    public static double RandomNumber(int range){
+        return Math.round(range * Math.random()) + 1;
     }
+
     public static void reset (){
 //        Player.PLAYER_HEALTH=100;
         Variables.SPEED=50;

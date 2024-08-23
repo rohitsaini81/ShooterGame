@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.rohitsaini.mogli.GAME.Bullet;
 import com.rohitsaini.mogli.GAME.Controler.Controlls;
@@ -23,6 +24,7 @@ import com.rohitsaini.mogli.GAME.Variables;
 import com.rohitsaini.mogli.GAME.enemies.Enemies;
 
 
+import java.awt.*;
 import java.util.ArrayList;
 
 //import static com.rohitsaini.mogli.GAME.player.Player.textureenemey;
@@ -89,10 +91,13 @@ public class MainGame implements Screen {
         all_shapes.add(level1.airStands2);
         all_shapes.add(level1.airStands3);
         all_shapes.add(level1.airStands4);
-        all_shapes.add(Hitmans.Zombie.zombieRect);
+//        all_shapes.add(Hitmans.Zombie.zombieRect);
+        for (Hitmans.Zombie z:enemy.zombiesarray){
+            all_shapes.add(z.zombieRect);
+            z.id=all_shapes.size()-1;
 
-
-
+        }
+//        System.out.println("Random number : "+RandomNumber(1));
 
 
 
@@ -170,6 +175,12 @@ public class MainGame implements Screen {
         ArrayList<Bullet>bulletstoRemove = new ArrayList<>();
         for (Bullet bullet:bullets){
             bullet.update();
+            for (int i = 0; i <enemy.zombiesarray.size-1;  i++) {
+                if (enemy.zombiesarray.get(i).zombieRect.overlaps(bullet.bulletRect) && enemy.zombiesarray.get(i).health>0){
+                enemy.zombiesarray.get(i).health--;
+                bullet.remove=true;
+                }
+            }
             if (enemy.enemyHealth>0&&bullet.bulletRect.overlaps(enemy.EnemyJammer1)){
                 bullet.bolletWall = enemy.getX();
 //                System.out.println("Enemy got injured");
@@ -186,6 +197,9 @@ public class MainGame implements Screen {
         for (Bullet bullet:bullets){
             bullet.Bullet_fire(Variables.batch);
         }
+//        for (int i = 0; i < all_shapes.size(); i++) {
+//
+//        }
 
 
 

@@ -7,9 +7,15 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.utils.Array;
 import com.rohitsaini.mogli.GAME.player.Player;
 import com.rohitsaini.mogli.GAME.DrawShapes.Shapes;
 import com.rohitsaini.mogli.GAME.Variables;
+
+import static com.rohitsaini.mogli.GAME.DrawShapes.Shapes.all_shapes;
+import static com.rohitsaini.mogli.GAME.DrawShapes.Shapes.shapeRenderer;
+import static com.rohitsaini.mogli.GAME.myKeyWords.RandomNumber;
+import static com.rohitsaini.mogli.GAME.myKeyWords.sout;
 
 public class Enemies{
 
@@ -33,7 +39,7 @@ public class Enemies{
     public boolean isDead;
     public int enemyHealth;
     public Hitmans Henenmy;
-    public Hitmans.Zombie zombie;
+//    public Hitmans.Zombie zombie;
     public float getX(){
         return enmey_X;
     }
@@ -43,6 +49,8 @@ public class Enemies{
     public void setX(float v){
         enmey_X=v;
     }
+
+    public Array<Hitmans.Zombie> zombiesarray;
 
 
     public Enemies(){
@@ -69,9 +77,16 @@ public class Enemies{
         }
         this.EnemiesAnimation=new Animation<>(0.2f, this.snakeRegion);
         this.sound.play();
-
+        zombiesarray = new Array<>();
         Henenmy= new Hitmans();
-        zombie= new Hitmans.Zombie(500);
+        zombiesarray.add(new Hitmans.Zombie(100));
+        zombiesarray.add(new Hitmans.Zombie(240));
+        zombiesarray.add(new Hitmans.Zombie(400));
+//        zombie= new Hitmans.Zombie(500);
+//        for (int j = 1; j < 5; j++) {
+//            Hitmans.Zombie Z= new Hitmans.Zombie(120*i);
+//            zombiesarray.add(Z);
+//        }
     }
 
 
@@ -105,8 +120,29 @@ public class Enemies{
 
         thisenemy();
         Henenmy.render();
-        zombie.render();
-
+        for (Hitmans.Zombie z:zombiesarray){
+            if (z.health>0) {
+                z.render();
+                if (z.zombieRect.overlaps(Shapes.player) && z.health > 0) {
+//                play blood animatioin
+                    if (Player.PLAYER_HEALTH > 0) {
+                        Player.PLAYER_HEALTH -= .5f;
+                    }
+                }
+            }
+            else {
+                if (z.health<=0 && !z.dead){
+                    all_shapes.remove(z.id);
+                }
+                z.dead=true;
+            }
+        }
+        if (zombiesarray.size<10){
+            Hitmans.Zombie Z =new Hitmans.Zombie((float) (RandomNumber(5)+(1000*RandomNumber(1))));
+            all_shapes.add(Z.zombieRect);
+            zombiesarray.add(Z);
+            Z.id=zombiesarray.size-1;
+        }
 
 
     }
