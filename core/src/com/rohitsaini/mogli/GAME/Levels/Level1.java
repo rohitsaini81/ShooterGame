@@ -24,7 +24,7 @@ public class Level1 {
         airStands3 = new Rectangle(300, 200f,50,15);
         airStands4 = new Rectangle(55, 200f,Gdx.graphics.getWidth(),15);
 
-        LevelWallHeight = 200;
+        LevelWallHeight = 50;
         triggered=false;
 
     }
@@ -39,9 +39,9 @@ public class Level1 {
 
 
     public void render(){
-        if (Player.PlayerX>LevelWall.getX()&& Player.PlayerX<(LevelWall.getX()+100)
+        if (Player.PlayerX>LevelWall.getX()-100&& Player.PlayerX<(LevelWall.getX()+100)
         ){
-            System.out.println(Controlls.cameratime+" ,camera stop "+LevelWall.getX());
+//            System.out.println(Controlls.cameratime+" ,camera stop "+LevelWall.getX());
             Player.movecamera=false;
 
         }else{

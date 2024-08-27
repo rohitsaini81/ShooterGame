@@ -15,6 +15,10 @@ public class myKeyWords {
     public static double RandomNumber(int range){
         return Math.round(range * Math.random()) + 1;
     }
+    public static int RandomNumber(int from, int range) {
+        return from + (int) (Math.random() * (range + 1 - from));
+    }
+
 
     public static void reset (){
 //        Player.PLAYER_HEALTH=100;

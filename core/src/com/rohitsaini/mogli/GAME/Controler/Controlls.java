@@ -29,14 +29,9 @@ public class Controlls {
 //                System.out.println("surface y: "+Variables.SurfaceY);
             MainGame.jumptime=0;
             cameratime = 10;
-            MainGame.themesound.dispose();
-            System.out.println(MainGame.themesound.play());
-
-
-
             Player.PLAYER_HEALTH = 20;
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.Q) || Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.Q)) {
             Gdx.app.exit();
         }
 
@@ -46,7 +41,14 @@ public class Controlls {
             if(Shapes.check_collision())
             {
                 collx=1;
-                XValue=Shapes.all_shapes.get(Shapes.collision_id).getX()-30f;
+                if (Shapes.all_shapes.size()>Shapes.collision_id){
+                    XValue=Shapes.all_shapes.get(Shapes.collision_id).getX()-30f;
+                    X2Value=Shapes.all_shapes.get(Shapes.collision_id).getX()-2.5f;
+                    bottomValue =Shapes.all_shapes.get(Shapes.collision_id).getY();
+
+                }
+
+//                there is error
 //                sout("Logs:"+(dummyValue1));
                 if (Player.getX()<(XValue)){
                     Player.PlayerX=Player.Player_prevX-0.01f;
@@ -54,7 +56,6 @@ public class Controlls {
                 }
 
 
-                X2Value=Shapes.all_shapes.get(Shapes.collision_id).getX()-2.5f;
 //                sout("Logs:"+(dummyValue2));
                 if (Player.getX()>(X2Value)){
 //                    sout("Logs: testing");
@@ -62,7 +63,6 @@ public class Controlls {
                 }
 
 
-                bottomValue =Shapes.all_shapes.get(Shapes.collision_id).getY();
                 if (Player.getY()<bottomValue){
                     Landed = false;
                     MainGame.jumptime=0;
@@ -99,11 +99,13 @@ public class Controlls {
                 Player.PlayerX += Player.PlayerSpeed * delta;
                 if(Shapes.check_collision()) {
 
-
-                    float dummyValue=Shapes.all_shapes.get(Shapes.collision_id).getX()-30f;
+                    if (Shapes.all_shapes.size()>Shapes.collision_id){
+                        float dummyValue=Shapes.all_shapes.get(Shapes.collision_id).getX()-30f;
 //                    sout("Logs:"+(dummyValue));
-                    if (Player.getX()<(dummyValue)){
-                    Player.PlayerX=Player.Player_prevX-0.01f;
+                        if (Player.getX()<(dummyValue)){
+                            Player.PlayerX=Player.Player_prevX-0.01f;
+                    }
+
                 }
                 }
 
@@ -118,13 +120,15 @@ public class Controlls {
                 if(Shapes.check_collision()) {
 
 
-
-                    float dummyValue=Shapes.all_shapes.get(Shapes.collision_id).getX()-2.5f;
+                    if (Shapes.all_shapes.size()>Shapes.collision_id){
+                        float dummyValue=Shapes.all_shapes.get(Shapes.collision_id).getX()-2.5f;
 //                    sout("Logs:"+(dummyValue));
-                    if (Player.getX()>(dummyValue)){
+                        if (Player.getX()>(dummyValue)){
 //                        sout("Logs: testing");
-                        Player.PlayerX=Player.Player_prevX+0.1f;
+                            Player.PlayerX=Player.Player_prevX+0.1f;
+                        }
                     }
+
                 }
 
 

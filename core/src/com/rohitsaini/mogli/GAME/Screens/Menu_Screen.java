@@ -21,7 +21,7 @@ public class Menu_Screen implements Screen {
 
     public Menu_Screen(Mogali game){
         this.game = game;
-        theme = Gdx.audio.newSound(Gdx.files.internal("etc/ezio_family.mp3"));
+        theme = Gdx.audio.newSound(Gdx.files.internal("playerSound/ezio_family.mp3"));
         if (TITLE_MYNAME==null){
             TITLE_MYNAME=new Texture("etc/rohitsainipixel.png");
             GAME_TITLE= new Texture("etc/assassins-creed-brotherhood-thumbnail.png");

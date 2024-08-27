@@ -3,12 +3,16 @@ package com.rohitsaini.mogli.GAME.DrawShapes;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.utils.Array;
 import com.rohitsaini.mogli.GAME.player.Player;
 import com.rohitsaini.mogli.GAME.Screens.MainGame;
 import com.rohitsaini.mogli.GAME.SurfaceObjects;
 import com.rohitsaini.mogli.GAME.Variables;
+import com.rohitsaini.mogli.Mogali;
 
 import java.util.ArrayList;
+
+import static com.rohitsaini.mogli.GAME.Screens.MainGame.enemy;
 
 public class Shapes {
     public static ShapeRenderer shapeRenderer;
@@ -45,6 +49,8 @@ public class Shapes {
         shapeRenderer.rect(SurfaceObjects.BoxJammer1.getX(), SurfaceObjects.BoxJammer1.getY(), SurfaceObjects.BoxJammer1.getWidth(), SurfaceObjects.BoxJammer1.getHeight()); // BoxJammer1
         shapeRenderer.rect(SurfaceObjects.BoxJammer2.getX(), SurfaceObjects.BoxJammer2.getY(), SurfaceObjects.BoxJammer2.getWidth(), SurfaceObjects.BoxJammer2.getHeight()); // BoxJammer2
         shapeRenderer.line(surfaceRect.getX(),surfaceRect.getY(),surfaceRect.getWidth(),surfaceRect.getY());
+//        shapeRenderer.rect(513,60,15,15);
+        all_shapes.forEach((S)-> shapeRenderer.rect(S.getX(),S.getY(),S.getWidth(),S.getHeight()));
         // ( X,Y,WIDTH, HEIGHT ) POSITION 300 TO 300+15 LEFT TO RIGHT AND BOTTOM TO TOP
         shapeRenderer.end();
 
@@ -80,7 +86,7 @@ public class Shapes {
        shapeRenderer.rect(MainGame.level1.airStands4.getX(),MainGame.level1.airStands4.getY(),MainGame.level1.airStands4.getWidth(),MainGame.level1.airStands4.getHeight());
 
        shapeRenderer.setColor(Color.BLACK);
-       shapeRenderer.rect(MainGame.enemy.Henenmy.enemyrecta.getX(),MainGame.enemy.Henenmy.enemyrecta.getY(),MainGame.enemy.Henenmy.enemyrecta.getWidth(),MainGame.enemy.Henenmy.enemyrecta.getHeight());
+       shapeRenderer.rect(enemy.Henenmy.enemyrecta.getX(), enemy.Henenmy.enemyrecta.getY(), enemy.Henenmy.enemyrecta.getWidth(), enemy.Henenmy.enemyrecta.getHeight());
         shapeRenderer.end();
    }
 
@@ -100,6 +106,32 @@ public class Shapes {
         			}
         	}
     	}
+
+            for (int i=0;i<=enemy.zombiesarray.size();i++) {
+
+                if (enemy.zombiesarray.size()<=i){
+                    System.out.println("thiis is false");
+                    collision_x_on=false;
+                    return false;
+                }else{
+
+                    try {
+                        if (player.overlaps(enemy.zombiesarray.get(i).zombieRect)) {
+                            if (Player.PlayerY < (enemy.zombiesarray.get(i).zombieRect.getY() + enemy.zombiesarray.get(i).zombieRect.getHeight() - 2)) {
+                                collision_id = i;
+                                collision_x_on = true;
+                                return true;
+                            }
+                        }
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                        System.out.println("catch block shapes 1");
+                        System.out.println("enemy zombie array size " + (enemy.zombiesarray.size() - 1) + " i :" + i);
+                        Mogali.GameisRunning = false;
+                    }
+                }
+            }
+
         collision_x_on=false;
     	return false;    	
     }
@@ -125,7 +157,7 @@ public class Shapes {
 
             if(player.overlaps(R)) {
                 if(Player.PlayerY>(R.getY()+ player.getHeight()+1)){
-                    return true;
+//                    return true;
                 }
             }
 

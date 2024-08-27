@@ -1,8 +1,9 @@
 package com.rohitsaini.mogli.GAME.Screens;
 
-import com.badlogic.gdx.Audio;
+//import com.badlogic.gdx.*;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
@@ -22,6 +23,7 @@ import com.rohitsaini.mogli.GAME.DrawShapes.Shapes;
 import com.rohitsaini.mogli.GAME.SurfaceObjects;
 import com.rohitsaini.mogli.GAME.Variables;
 import com.rohitsaini.mogli.GAME.enemies.Enemies;
+import com.rohitsaini.mogli.Mogali;
 
 
 import java.awt.*;
@@ -47,8 +49,8 @@ public class MainGame implements Screen {
     static Shapes shapes;
 
 
-    public static Sound themesound;
-    static Audio audio;
+    public static Music themesound;
+//    static Audio audio;
     static Music music;
 
     public static Enemies enemy;
@@ -61,7 +63,7 @@ public class MainGame implements Screen {
         this.game = game;
         level1= new Level1();
         shapeRenderer= new ShapeRenderer();
-        themesound = Gdx.audio.newSound(Gdx.files.internal("playerSound/warning-mystrious.mp3"));
+        themesound = Gdx.audio.newMusic(Gdx.files.internal("playerSound/warning-mystrious.mp3"));
         Variables.camera = new OrthographicCamera(W2/2,H/2);
         Variables.camera.setToOrtho(false, W2/2 ,H/2);
 
@@ -92,11 +94,6 @@ public class MainGame implements Screen {
         all_shapes.add(level1.airStands3);
         all_shapes.add(level1.airStands4);
 //        all_shapes.add(Hitmans.Zombie.zombieRect);
-        for (Hitmans.Zombie z:enemy.zombiesarray){
-            all_shapes.add(z.zombieRect);
-            z.id=all_shapes.size()-1;
-
-        }
 //        System.out.println("Random number : "+RandomNumber(1));
 
 
@@ -121,7 +118,7 @@ public class MainGame implements Screen {
         states.add("X:" +(int)Player.PlayerX+"Y:"+(int)Player.PlayerY);
         states.add("X:"+Gdx.input.getX()+" ,Health:"+Player.PLAYER_HEALTH);
 //        themesound.play();
-        themesound.loop();
+        themesound.setLooping(true);
 
     }
 //  <----------- Render Method -------------->
@@ -129,118 +126,160 @@ public class MainGame implements Screen {
     public static float jumptime=0;
     @Override
     public void render(float delta) {
+        if (Player.PlayerY<60){
+            Player.setY(60);
+        }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.M)){
+            if (themesound.isPlaying()){
+            themesound.pause();}
+            else {
+                themesound.play();
+            }
+        }
         if (jumptime>=0){
             jumptime-=Variables.SPEED*delta;
         }
 //        System.out.println(Math.abs(jumptime));
         Variables.deltaTime=delta;
         Player.Player_prevX = Player.PlayerX;
-        Controlls.render(delta);
 
-        loopValue+=1;
-        if(loopValue>=230){loopValue=0;}
-        ScreenUtils.clear(0, 0, 0, 1);
-        Variables.stateTime+=delta;
+
+
+        if (Mogali.GameisRunning) {
+            Controlls.render(delta);
+
+            loopValue += 1;
+            if (loopValue >= 230) {
+                loopValue = 0;
+            }
+            ScreenUtils.clear(0, 0, 0, 1);
+            Variables.stateTime += delta;
 //        Variables.camera.translate(0.1f,0.1f);
 
-        Variables.camera.update();
-        Variables.batch.setProjectionMatrix(Variables.camera.combined);
-        Variables.batch.begin();
+            Variables.camera.update();
+            Variables.batch.setProjectionMatrix(Variables.camera.combined);
+            Variables.batch.begin();
 
-        for (int i = 0; i < bg_times; i++) {
-            Variables.batch.draw(Variables.sprite,W0+i*415,0, Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
-        }
+            for (int i = 0; i < bg_times; i++) {
+                Variables.batch.draw(Variables.sprite, W0 + i * 415, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+            }
 
 
 //        statusbar.stage.act();
 //        statusbar.stage.draw();
-//         Render --------->   :
 
-        surfaceObjects.renderSfObjects(Variables.batch);
-        enemy.RenderEnemy();
-        Player.renderPlayer();
+            //         Render --------->   :
 
-
+            surfaceObjects.renderSfObjects(Variables.batch);
+            enemy.RenderEnemy();
+            Player.renderPlayer();
 //        Variables.batch.draw(textureenemey,Player.PlayerX,my_Y,40,60);
-
-
-
-
-
-
 
 
 //        Bullet Functionality HERE
 //        <Update Bullets>
-        ArrayList<Bullet>bulletstoRemove = new ArrayList<>();
-        for (Bullet bullet:bullets){
-            bullet.update();
-            for (int i = 0; i <enemy.zombiesarray.size-1;  i++) {
-                if (enemy.zombiesarray.get(i).zombieRect.overlaps(bullet.bulletRect) && enemy.zombiesarray.get(i).health>0){
-                enemy.zombiesarray.get(i).health--;
-                bullet.remove=true;
+            ArrayList<Bullet> bulletstoRemove = new ArrayList<>();
+//        ArrayList<Bullet>zombiestoRemove = new ArrayList<>();
+
+            for (Bullet bullet : bullets) {
+                bullet.update();
+
+                for (int i = 0; i < enemy.zombiesarray.size(); i++) {
+
+
+                    try {
+                        if (enemy.zombiesarray.get(i).health <= 0) {
+
+                            sout("removing enemy :" + i);
+                            enemy.zombiesarray.remove(i);
+                            sout("removed enemy :" + i);
+
+
+                        }
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                        System.out.println("catch block 1");
+                        Mogali.GameisRunning=false;
+
+                    }
+
+                    try {
+                        if (enemy.zombiesarray.size() != i && enemy.zombiesarray.get(i).zombieRect.overlaps(Bullet.bulletRect) && enemy.zombiesarray.get(i).health > 0) {
+                            enemy.zombiesarray.get(i).health--;
+                            bullet.remove = true;
+                        }
+                    } catch (Exception e) {
+                        System.out.println("try block 3 " + e.getMessage());
+                        System.out.println("arrya size " + enemy.zombiesarray.size() + " and checking value of i : " + i);
+
+                    }
+
+
+                }
+
+
+                if (enemy.enemyHealth > 0 && bullet.bulletRect.overlaps(enemy.EnemyJammer1)) {
+                    bullet.bolletWall = enemy.getX();
+//                System.out.println("Enemy got injured");
+                    enemy.enemyHealth -= 2;
+                }
+                if (enemy.Henenmy.health > 0 && bullet.bulletRect.overlaps(enemy.Henenmy.enemyrecta)) {
+                    bullet.bolletWall = enemy.Henenmy.enemyrecta.getX();
+                    enemy.Henenmy.health--;
+                }
+                if (bullet.remove) {
+                    bulletstoRemove.add(bullet);
                 }
             }
-            if (enemy.enemyHealth>0&&bullet.bulletRect.overlaps(enemy.EnemyJammer1)){
-                bullet.bolletWall = enemy.getX();
-//                System.out.println("Enemy got injured");
-                enemy.enemyHealth-=2;
+            bullets.removeAll(bulletstoRemove);
+            for (Bullet bullet : bullets) {
+                bullet.Bullet_fire(Variables.batch);
             }
-            if (enemy.Henenmy.health>0&&bullet.bulletRect.overlaps(enemy.Henenmy.enemyrecta)){
-                bullet.bolletWall=enemy.Henenmy.enemyrecta.getX();
-                enemy.Henenmy.health--;
-            }
-            if (bullet.remove){
-                bulletstoRemove.add(bullet);}
-        }
-        bullets.removeAll(bulletstoRemove);
-        for (Bullet bullet:bullets){
-            bullet.Bullet_fire(Variables.batch);
-        }
 //        for (int i = 0; i < all_shapes.size(); i++) {
 //
 //        }
 
 
-
 //        JUMP FUNCTIONALITY HERE
 
-        if (Controlls.JUMP){
-            Player.Player_prevY = Player.PlayerY;
-            Player.PlayerY+=Variables.SPEED*delta+0.5f;
-        }
-        if (jumptime<=0){
-            Player.Player_prevY = Player.PlayerY;
-            Controlls.JUMP = false;
-        }
-
-        if (!Controlls.JUMP){
-            Player.Player_prevY = Player.PlayerY;
-            if(Shapes.check_collision_surface()) {
-                Player.PlayerY=Player.Player_prevY;
-            	if(Player.PlayerDirectionRight) {
-            		Player.Player_State=2;
-            	}else {
-            		Player.Player_State=-2;
-            	}
-                Variables.SurfaceY=(Player.PlayerY+50);
-            	Controlls.Landed = true;
-            }else if (Player.PlayerY>=60){
-
-            Player.PlayerY-= Variables.SPEED*delta;// -100+surface
+            if (Controlls.JUMP) {
+                Player.Player_prevY = Player.PlayerY;
+                Player.PlayerY += Variables.SPEED * delta + 0.5f;
             }
+            if (jumptime <= 0) {
+                Player.Player_prevY = Player.PlayerY;
+                Controlls.JUMP = false;
+            }
+
+            if (!Controlls.JUMP) {
+                Player.Player_prevY = Player.PlayerY;
+                if (Shapes.check_collision_surface()) {
+                    Player.PlayerY = Player.Player_prevY;
+                    if (Player.PlayerDirectionRight) {
+                        Player.Player_State = 2;
+                    } else {
+                        Player.Player_State = -2;
+                    }
+                    Variables.SurfaceY = (Player.PlayerY + 50);
+                    Controlls.Landed = true;
+                } else if (Player.PlayerY >= 60) {
+
+                    Player.PlayerY -= Variables.SPEED * delta;// -100+surface
+                }
+            }
+            if (Player.PlayerY >= Variables.SurfaceY - 5 && Player.PlayerY <= Variables.SurfaceY) {
+                Controlls.Landed = true;
+            }
+
+
+            Variables.batch.end();
+
+            shapes.shaperender();
+            level1.render();
         }
-        if (Player.PlayerY>=Variables.SurfaceY-5&&Player.PlayerY<=Variables.SurfaceY){
-            Controlls.Landed = true;
-        }
-        
-       
-        Variables.batch.end();
-        Variables.batch.begin();
-        statusbar.render();
-        Variables.batch.end();
-        shapes.shaperender();
-        level1.render();
+            Variables.batch.begin();
+            statusbar.render();
+            Variables.batch.end();
 
     }
 
@@ -251,12 +290,13 @@ public class MainGame implements Screen {
 
     @Override
     public void pause() {
-
+        sout("pause game");
+        this.game.getScreen().pause();
     }
 
     @Override
     public void resume() {
-
+this.game.getScreen().resume();
     }
 
     @Override

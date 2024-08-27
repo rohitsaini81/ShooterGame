@@ -12,6 +12,8 @@ import com.rohitsaini.mogli.GAME.player.Player;
 import com.rohitsaini.mogli.GAME.DrawShapes.Shapes;
 import com.rohitsaini.mogli.GAME.Variables;
 
+import java.util.ArrayList;
+
 import static com.rohitsaini.mogli.GAME.DrawShapes.Shapes.all_shapes;
 import static com.rohitsaini.mogli.GAME.DrawShapes.Shapes.shapeRenderer;
 import static com.rohitsaini.mogli.GAME.myKeyWords.RandomNumber;
@@ -50,7 +52,7 @@ public class Enemies{
         enmey_X=v;
     }
 
-    public Array<Hitmans.Zombie> zombiesarray;
+    public ArrayList<Hitmans.Zombie> zombiesarray;
 
 
     public Enemies(){
@@ -77,16 +79,11 @@ public class Enemies{
         }
         this.EnemiesAnimation=new Animation<>(0.2f, this.snakeRegion);
         this.sound.play();
-        zombiesarray = new Array<>();
         Henenmy= new Hitmans();
-        zombiesarray.add(new Hitmans.Zombie(100));
-        zombiesarray.add(new Hitmans.Zombie(240));
-        zombiesarray.add(new Hitmans.Zombie(400));
-//        zombie= new Hitmans.Zombie(500);
-//        for (int j = 1; j < 5; j++) {
-//            Hitmans.Zombie Z= new Hitmans.Zombie(120*i);
-//            zombiesarray.add(Z);
-//        }
+        zombiesarray = new ArrayList<>();
+//        zombiesarray.add(new Hitmans.Zombie(100));
+//        zombiesarray.add(new Hitmans.Zombie(240));
+
     }
 
 
@@ -120,29 +117,38 @@ public class Enemies{
 
         thisenemy();
         Henenmy.render();
+        if (zombiesarray.size()<10){
+            int zombiespawnrange= (int) RandomNumber(1000,2105);
+//            int zombiespawnrange=0;
+//            zombiespawnrange=zombiespawnrange>2105?zombiespawnrange=2100:zombiespawnrange;
+            Hitmans.Zombie Z =new Hitmans.Zombie((float) zombiespawnrange );
+//            System.out.println("all shapes size before: "+all_shapes.size());
+//            all_shapes.add(Z.zombieRect);
+
+//            System.out.println("all shapes size after adding: "+all_shapes.size()+" rect id"+Z.rect_id);
+
+//            System.out.println("zombies array size before :"+zombiesarray.size());
+            zombiesarray.add(Z);
+            Z.rect_id=zombiesarray.size()-1;
+            Z.id=zombiesarray.size()-1;
+//            System.out.println("zombies array size after adding : "+zombiesarray.size);
+//            sout("new spawn zombies id,rect id"+Z.id+","+Z.rect_id);
+
+        }
         for (Hitmans.Zombie z:zombiesarray){
-            if (z.health>0) {
                 z.render();
                 if (z.zombieRect.overlaps(Shapes.player) && z.health > 0) {
 //                play blood animatioin
+//                    .........
+//                    __________
                     if (Player.PLAYER_HEALTH > 0) {
                         Player.PLAYER_HEALTH -= .5f;
                     }
                 }
-            }
-            else {
-                if (z.health<=0 && !z.dead){
-                    all_shapes.remove(z.id);
-                }
-                z.dead=true;
-            }
+
+
         }
-        if (zombiesarray.size<10){
-            Hitmans.Zombie Z =new Hitmans.Zombie((float) (RandomNumber(5)+(1000*RandomNumber(1))));
-            all_shapes.add(Z.zombieRect);
-            zombiesarray.add(Z);
-            Z.id=zombiesarray.size-1;
-        }
+
 
 
     }

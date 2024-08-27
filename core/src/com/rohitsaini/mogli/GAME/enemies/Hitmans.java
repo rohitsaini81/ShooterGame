@@ -123,6 +123,7 @@ public class Hitmans {
         public Rectangle zombieRect;
         public int health;
         public int id;
+        public int rect_id;
         public boolean dead;
         public Animation<TextureRegion> zombieAnimation;
         public Animation<TextureRegion> rzombieAnimation;
@@ -138,6 +139,7 @@ public class Hitmans {
 
         Music zombieEating;
         Music zombieSound;
+        StringBuilder healthString;
 
 
 
@@ -157,7 +159,12 @@ public class Hitmans {
             Texture Textture_r = new Texture("etc/others/r-zombie_spritesheet.png");
             spwan_location= SpawnX;
             zombieRect = new Rectangle(spwan_location,60,20,32);
-            health = 20;
+            health = 6;
+            healthString= new StringBuilder();
+//            for (int i=0;i<=health;i++){
+//                healthString.append("-");
+//            }
+
 
             TextureRegion[][] temp= TextureRegion.split(Textture,32,32);
             int Ti=8;
@@ -186,7 +193,12 @@ public class Hitmans {
         public void render(){
             Aisystem();
 //            zombiesXY.setDefaultToken("zombie XY: "+zombieRect.getX()+" "+60);
-            text.draw(Variables.batch,""+zombieRect.getX(),zombieRect.getX(),zombieRect.getY()+60,5,5,false);
+            healthString.delete(0,healthString.length());
+            for (int i=0;i<=health;i++){
+                healthString.append("-");
+            }
+//            System.out.println();
+            text.draw(Variables.batch,"|"+healthString+"|",zombieRect.getX(),zombieRect.getY()+60,5,5,false);
             if (facePx==-1){
                 Variables.batch.draw(zombieAnimation.getKeyFrame(Variables.stateTime,true),zombieRect.getX(),60,32, 32);
             }else {
@@ -194,24 +206,14 @@ public class Hitmans {
             }
         }
 
-boolean calledswitch=false;
-void swither(){
-    if (!calledswitch){
-//        sout("switcher is called");
-        spwan_location=zombieRect.getX();
-        if(RandomNumber(1)==1){
-            facePx=1;
-        }else {facePx=-1;}
-    }
-    calledswitch=true;
-}
-void defalutbehave(){
+
+    void defalutbehave(){
     if (zombieRect.getX()>spwan_location){
-//                    Going to 'left' side
+//      Going to 'left' side
         facePx=1;
     }
-    else if (zombieRect.getX()<spwan_location-100){
-//                    Going to right side
+    else if (zombieRect.getX()<0){
+//      Going to right side
         facePx=-1;
     }
 }
@@ -222,37 +224,21 @@ void defalutbehave(){
 
         private void Aisystem(){
             if (health>0){
-//                System.out.println(facePx+"face side");
                 float a=zombieRect.getX();
-                int random=(int) RandomNumber(3);
+                int random=(int) RandomNumber(10);
+//                System.out.println(RandomNumber(4,8));
                 float b=(3* Gdx.graphics.getDeltaTime()*random)*facePx;
-//                System.out.println("a:"+a+" b:"+b);
                 zombieRect.set(a-b,60,20,32);
 
 
                 if (Shapes.player.overlaps(zombieRect)){
-                    facePx=0;
-                    calledswitch=false;
-                    if (!zombieSound.isPlaying()){
-                    zombieSound.play();
-                    }
-                }else if (Player.getX()<zombieRect.getX() && Player.getX()>zombieRect.getX()-5 ||Player.getX()>zombieRect.getX() && Player.getX()>zombieRect.getX()+5){
-                    swither();
-                }
-                else if (Player.getX()<zombieRect.getX() && Player.getX()>(zombieRect.getX()-20)){
-//                    facePx=1;
-                    spwan_location=zombieRect.getX();
-                }
-                if (Player.getX()>zombieRect.getX() && Player.getX()>(zombieRect.getX()+50)){
-                    facePx=-1;
-                    spwan_location=zombieRect.getX();
-                }
+                    facePx=RandomNumber(-5,5);
+//                    System.out.println(facePx);
 
-
-
-//                if (Player.getX()<zombieRect.getX() && Player.getX()>(zombieRect.getX()-50)|| Player.getX()>zombieRect.getX() && Player.getX()>(zombieRect.getX()+50)){
-//                    System.out.println("i see a human. roar----****;;;");
-//                }
+                                                        if (!zombieSound.isPlaying()){zombieSound.play();}
+                }else {
+                    defalutbehave();
+                }
             }
         }
     }
