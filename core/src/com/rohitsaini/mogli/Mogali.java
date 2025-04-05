@@ -34,9 +34,9 @@ public class Mogali extends Game {
 		batch = new SpriteBatch();
 		Menu= new Menu_Screen(this);
 //		this.setScreen(Menu);
-		Game= new MainGame(this);
+//		Game = new MainGame(this);
 //		screen2 = new headScreen(this);
-		this.setScreen(Game);
+		this.setScreen(Menu);
 		GameisRunning=true;
 	}
 

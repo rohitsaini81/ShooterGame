@@ -24,7 +24,7 @@ public class Menu_Screen implements Screen {
         theme = Gdx.audio.newSound(Gdx.files.internal("playerSound/ezio_family.mp3"));
         if (TITLE_MYNAME==null){
             TITLE_MYNAME=new Texture("etc/rohitsainipixel.png");
-            GAME_TITLE= new Texture("etc/assassins-creed-brotherhood-thumbnail.png");
+            GAME_TITLE= new Texture("etc/assassins-creed-22704.png");
             game.font = new BitmapFont();
         }
     }
