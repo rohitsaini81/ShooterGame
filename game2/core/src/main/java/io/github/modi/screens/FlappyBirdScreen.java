@@ -20,6 +20,8 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import java.util.ArrayList;
+
 public class FlappyBirdScreen implements Screen {
 
     // Camera + Viewport
@@ -33,13 +35,14 @@ public class FlappyBirdScreen implements Screen {
     // Textures
     private Texture background;
     private Texture birdTexture;
-    private Texture pipeTopTexture;
-    private Texture pipeBottomTexture;
+
     private Texture gameOverTexture;
 
     // Sounds
     private Sound flapSound;
     private Music modi_song;
+
+    private ArrayList<Music> GameOverMusic;
 
     // Font
     private BitmapFont font;
@@ -70,6 +73,8 @@ public class FlappyBirdScreen implements Screen {
     private float pipeSpawnTimer = 0f;
     private final float PIPE_SPAWN_INTERVAL = 1.7f;
 
+    private ArrayList<Texture> PolTexture;
+
     @Override
     public void show() {
         // Full-screen world based on device resolution
@@ -87,13 +92,21 @@ public class FlappyBirdScreen implements Screen {
 
         // Load assets
         background = new Texture("background-day.png");
-        birdTexture = new Texture("bird.png");
-        pipeTopTexture = new Texture("pipe-top.png");
-        pipeBottomTexture = new Texture("pipe-top.png");
+        PolTexture = new ArrayList<>();
+        PolTexture.add(new Texture("dhruv/dhruv1.png"));
+        PolTexture.add(new Texture("dhruv/dhruv2.png"));
+        PolTexture.add(new Texture("dhruv/dhruv3.png"));
+        birdTexture = new Texture("modi/modi1.png");
+
         gameOverTexture = new Texture("niga_baba_modi.png");
         flapSound = Gdx.audio.newSound(Gdx.files.internal("wing.ogg"));
         modi_song = Gdx.audio.newMusic(Gdx.files.internal("modi_song.mp3"));
         modi_song.setLooping(true);
+
+        GameOverMusic = new ArrayList<>();
+        GameOverMusic.add(Gdx.audio.newMusic(Gdx.files.internal("sound/1.mp3")));
+        GameOverMusic.add(Gdx.audio.newMusic(Gdx.files.internal("sound/2.mp3")));
+        GameOverMusic.add(Gdx.audio.newMusic(Gdx.files.internal("sound/3.mp3")));
 
         // Font
         font = new BitmapFont();
@@ -113,6 +126,7 @@ public class FlappyBirdScreen implements Screen {
         resetGame();
     }
 
+    int PolNumber = 0;
     private void resetGame() {
         birdY = viewport.getWorldHeight() / 2f;
         birdVelocity = 0f;
@@ -122,6 +136,7 @@ public class FlappyBirdScreen implements Screen {
         modi_song.stop();
         modi_song.play();
         gameOver = false;
+        GameOverMusic.get(PolNumber).stop();
     }
 
     @Override
@@ -139,8 +154,8 @@ public class FlappyBirdScreen implements Screen {
         for (Pipe p : pipes) {
             float bottomY = p.gapY - p.GAP_HEIGHT - p.bottomHeight;
             float topY = p.gapY + p.GAP_HEIGHT;
-            batch.draw(pipeBottomTexture, p.x, bottomY, p.width, p.bottomHeight);
-            batch.draw(pipeTopTexture, p.x, topY, p.width, p.topHeight);
+            batch.draw(PolTexture.get(PolNumber), p.x, bottomY, p.width, p.bottomHeight);
+            batch.draw(PolTexture.get(PolNumber), p.x, topY, p.width, p.topHeight);
         }
 
         // Draw bird
@@ -157,6 +172,10 @@ public class FlappyBirdScreen implements Screen {
         if (gameOver) {
             modi_song.stop();
             String msg = "GAME OVER - Tap to Restart";
+            if(!GameOverMusic.get(PolNumber).isPlaying()){
+                GameOverMusic.get(PolNumber).play();
+            }
+//            System.out.println(msg); it's rendering
             glyphLayout.setText(font, msg);
             font.draw(batch, msg,
                 (viewport.getWorldWidth() - glyphLayout.width) / 2f,
@@ -221,6 +240,7 @@ public class FlappyBirdScreen implements Screen {
 
             if (!p.counted && p.x + p.width < birdX) {
                 score++;
+                if(PolNumber<PolTexture.size()-1){PolNumber++;}else{PolNumber=0;}
                 p.counted = true;
             }
 
@@ -272,8 +292,6 @@ public class FlappyBirdScreen implements Screen {
         shapeRenderer.dispose();
         background.dispose();
         birdTexture.dispose();
-        pipeTopTexture.dispose();
-        pipeBottomTexture.dispose();
         font.dispose();
         flapSound.dispose();
         modi_song.dispose();
