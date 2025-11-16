@@ -10,13 +10,15 @@ import io.github.modi.screens.StartScreen;
 
 public class Main extends Game {
     FlappyBirdScreen flappyBirdScreen;
+    StartScreen startScreen;
 
 
     @Override
     public void create() {
         flappyBirdScreen = new FlappyBirdScreen();
+        startScreen = new StartScreen(this);
 
-        setScreen(new StartScreen(this));
+        setScreen(startScreen);
     }
 
     @Override

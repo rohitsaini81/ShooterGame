@@ -102,7 +102,7 @@ public class FlappyBirdScreen implements Screen {
 
         // Dynamic scale based on world height
         birdWidth = WORLD_WIDTH * 0.1f;
-        birdHeight = WORLD_HEIGHT * 0.12f;
+        birdHeight = WORLD_HEIGHT * 0.15f;
 
         // Physics scale
         GRAVITY = -WORLD_HEIGHT * 1.8f;
@@ -245,10 +245,10 @@ public class FlappyBirdScreen implements Screen {
         float worldW = viewport.getWorldWidth();
         float worldH = viewport.getWorldHeight();
 
-        p.width = worldW * 0.15f;
-        p.topHeight = worldH * 0.4f;
-        p.bottomHeight = worldH * 0.4f;
-        p.GAP_HEIGHT = worldH * 0.12f;
+        p.width = worldW * 0.10f;
+        p.topHeight = worldH * 0.3f;
+        p.bottomHeight = worldH * 0.3f;
+        p.GAP_HEIGHT = worldH * 0.2f;
         p.SPEED = worldW * 0.4f;
 
         p.x = worldW + 100;
